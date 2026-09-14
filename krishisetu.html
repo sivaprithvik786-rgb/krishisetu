@@ -1,0 +1,1057 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KrishiSetu — कृषि सेतु</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Manrope:wght@400;500;600;700;800&family=Noto+Sans:wght@400;500;600;700&family=Noto+Sans+Devanagari:wght@400;500;600;700&family=Noto+Sans+Bengali:wght@400;500;600;700&family=Noto+Sans+Tamil:wght@400;500;600;700&family=Noto+Sans+Telugu:wght@400;500;600;700&family=Noto+Sans+Kannada:wght@400;500;600;700&family=Noto+Sans+Malayalam:wght@400;500;600;700&family=Noto+Sans+Gujarati:wght@400;500;600;700&family=Noto+Sans+Gurmukhi:wght@400;500;600;700&family=Noto+Sans+Oriya:wght@400;500;600;700&family=Noto+Nastaliq+Urdu:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#F4F6F3;
+    --surface:#FFFFFF;
+    --ink:#16211D;
+    --ink-soft:#5E6B62;
+    --primary:#0E4749;
+    --primary-2:#12615F;
+    --accent:#E2932B;
+    --clay:#C0512B;
+    --moss:#3F7D4E;
+    --line:#DCE3DC;
+    --radius:16px;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0; background:var(--bg); color:var(--ink);
+    font-family:'Manrope','Noto Sans','Noto Sans Devanagari','Noto Sans Bengali','Noto Sans Tamil',
+      'Noto Sans Telugu','Noto Sans Kannada','Noto Sans Malayalam','Noto Sans Gujarati',
+      'Noto Sans Gurmukhi','Noto Sans Oriya','Noto Nastaliq Urdu',sans-serif;
+    -webkit-font-smoothing:antialiased;
+  }
+  .serif{ font-family:'Instrument Serif','Manrope',serif; font-style:italic; }
+  h1,h2{ margin:0; }
+  .wrap{ max-width:1000px; margin:0 auto; padding:0 20px 60px; }
+
+  /* ---------- Landing / language page ---------- */
+  .landing{
+    min-height:100vh; position:relative; overflow:hidden;
+    background:
+      radial-gradient(600px 400px at 12% -10%, rgba(226,147,43,0.22), transparent 60%),
+      radial-gradient(700px 500px at 110% 10%, rgba(18,97,95,0.30), transparent 55%),
+      radial-gradient(500px 400px at 50% 120%, rgba(63,125,78,0.18), transparent 60%),
+      var(--primary);
+    color:#F4F6F3;
+    display:flex; flex-direction:column; align-items:center; justify-content:center;
+    padding:60px 20px;
+  }
+  .landing .brandrow{ display:flex; align-items:center; gap:12px; margin-bottom:6px; }
+  .bridge-mark{ width:38px; height:38px; flex:none; }
+  .landing h1{ font-family:'Instrument Serif',serif; font-style:italic; font-size:44px; font-weight:400; letter-spacing:0.2px; }
+  .landing .devname{ font-size:19px; opacity:0.85; margin-top:-4px; }
+  .landing .lead{ max-width:560px; text-align:center; font-size:15.5px; opacity:0.88; margin:18px 0 34px; line-height:1.6; }
+  .lang-grid{
+    display:grid; grid-template-columns:repeat(auto-fill,minmax(150px,1fr));
+    gap:10px; width:100%; max-width:820px;
+  }
+  .lang-chip{
+    background:rgba(255,255,255,0.07); border:1px solid rgba(255,255,255,0.18);
+    border-radius:12px; padding:14px 10px; text-align:center; cursor:pointer;
+    transition:background .15s, border-color .15s, transform .1s;
+    color:#F4F6F3;
+  }
+  .lang-chip:hover{ background:rgba(255,255,255,0.14); transform:translateY(-1px); }
+  .lang-chip.selected{ background:var(--accent); border-color:var(--accent); color:#241704; }
+  .lang-chip .native{ font-size:17px; font-weight:600; display:block; }
+  .lang-chip .eng{ font-size:10.5px; opacity:0.7; display:block; margin-top:3px; letter-spacing:0.2px; }
+  .lang-chip.selected .eng{ opacity:0.75; }
+  .lang-chip.partial .native::after{ content:"·"; opacity:0.5; margin-left:3px; }
+
+  .landing .continue-row{ margin-top:30px; text-align:center; }
+  .btn-continue{
+    font-family:'Manrope',sans-serif; font-weight:700; font-size:15px;
+    background:var(--accent); color:#241704; border:none; border-radius:999px;
+    padding:13px 34px; cursor:pointer;
+  }
+  .btn-continue:disabled{ opacity:0.35; cursor:not-allowed; }
+  .btn-continue:hover:not(:disabled){ opacity:0.92; }
+  .partial-note{ font-size:11.5px; opacity:0.65; margin-top:10px; max-width:420px; text-align:center; }
+
+  /* ---------- App shell ---------- */
+  header.top{
+    background:linear-gradient(120deg, var(--primary), var(--primary-2));
+    color:#F4F6F3; border-bottom:3px solid var(--accent);
+  }
+  .top-inner{ max-width:1000px; margin:0 auto; padding:20px 20px 0; display:flex; align-items:flex-start; justify-content:space-between; flex-wrap:wrap; gap:10px; }
+  .brand{ display:flex; align-items:center; gap:10px; }
+  .brand h1{ font-family:'Instrument Serif',serif; font-style:italic; font-size:25px; font-weight:400; }
+  .brand .bridge-mark{ width:26px; height:26px; }
+  .tagline{ font-size:12.5px; opacity:0.82; margin:2px 0 0; }
+  .langswitch{
+    font-size:12.5px; color:#F4F6F3; background:rgba(255,255,255,0.14); border:1px solid rgba(255,255,255,0.3);
+    border-radius:999px; padding:6px 13px; cursor:pointer; font-weight:600;
+  }
+  .langswitch:hover{ background:rgba(255,255,255,0.22); }
+  nav.tabs{ display:flex; gap:4px; margin-top:18px; overflow-x:auto; }
+  nav.tabs button{
+    font-family:inherit; background:none; border:none; border-bottom:3px solid transparent;
+    padding:12px 16px 12px 2px; margin-right:14px; font-size:14px; font-weight:600;
+    color:rgba(244,246,243,0.65); cursor:pointer; white-space:nowrap;
+  }
+  nav.tabs button.active{ color:#fff; border-bottom-color:var(--accent); }
+  nav.tabs button:hover{ color:#fff; }
+
+  section.panel{ padding-top:26px; }
+  .grid2{ display:grid; grid-template-columns:1.1fr 0.9fr; gap:20px; }
+  @media (max-width:760px){ .grid2{ grid-template-columns:1fr; } }
+
+  .card{ background:var(--surface); border:1px solid var(--line); border-radius:var(--radius); padding:22px; box-shadow:0 1px 2px rgba(20,40,30,0.04); }
+  .card + .card{ margin-top:18px; }
+  .card h2{ font-size:18px; font-weight:700; margin:0 0 4px; }
+  .card .hint{ font-size:13px; color:var(--ink-soft); margin:0 0 16px; }
+
+  label{ display:block; font-size:12px; font-weight:700; color:var(--ink-soft); margin:14px 0 5px; text-transform:uppercase; letter-spacing:0.3px; }
+  label:first-of-type{ margin-top:0; }
+  input[type=text], input[type=tel], input[type=number], select{
+    width:100%; padding:11px 12px; border:1.5px solid var(--line); border-radius:10px; background:#fff;
+    font-family:inherit; font-size:14.5px; color:var(--ink);
+  }
+  input:focus, select:focus, button:focus-visible{ outline:2px solid var(--primary-2); outline-offset:1px; }
+  .row2{ display:grid; grid-template-columns:1fr 1fr; gap:14px; }
+
+  .btn{
+    font-family:inherit; font-weight:700; font-size:14px; border-radius:10px;
+    border:none; background:var(--primary); color:#fff; padding:12px 20px; cursor:pointer; margin-top:18px;
+  }
+  .btn:hover{ opacity:0.9; }
+  .btn.small{ padding:8px 13px; font-size:12.5px; margin-top:0; border-radius:8px; }
+  .btn.gold{ background:var(--accent); color:#241704; }
+  .btn:disabled{ opacity:0.4; cursor:not-allowed; }
+
+  .msg{ font-size:13.5px; padding:10px 13px; margin-top:14px; border-radius:10px; }
+  .msg.ok{ background:#E7F2EA; color:#1E3B29; }
+  .msg.err{ background:#FBEAE3; color:#6B2A15; }
+
+  .token-confirm{ margin-top:18px; border-radius:14px; padding:20px; text-align:center; background:linear-gradient(135deg, #0E4749, #12615F); color:#F4F6F3; }
+  .token-confirm .num{ font-family:'Instrument Serif',serif; font-style:italic; font-size:52px; font-weight:400; line-height:1; color:var(--accent); }
+  .token-confirm .label{ font-size:11px; letter-spacing:1.5px; opacity:0.75; }
+  .token-confirm .detail{ font-size:13.5px; margin-top:8px; opacity:0.92; }
+
+  table{ width:100%; border-collapse:collapse; font-size:13.5px; }
+  th{ text-align:left; font-size:11px; color:var(--ink-soft); font-weight:700; padding:8px 8px; border-bottom:1.5px solid var(--ink); text-transform:uppercase; letter-spacing:0.3px; }
+  td{ padding:10px 8px; border-bottom:1px solid var(--line); vertical-align:middle; }
+  tr:last-child td{ border-bottom:none; }
+
+  .pill{ display:inline-block; padding:4px 11px; font-size:11px; font-weight:700; border-radius:999px; }
+  .pill.booked{ color:var(--ink-soft); background:#EBEEEA; }
+  .pill.progress{ color:#fff; background:var(--clay); }
+  .pill.procured{ color:#241704; background:var(--accent); }
+  .pill.paid{ color:#fff; background:var(--moss); }
+
+  .board{ background:linear-gradient(135deg, var(--primary), var(--primary-2)); color:#F4F6F3; padding:36px 22px; text-align:center; border-radius:var(--radius); }
+  .board .label{ font-size:12px; letter-spacing:2px; opacity:0.75; }
+  .board .num{ font-family:'Instrument Serif',serif; font-style:italic; font-size:92px; font-weight:400; line-height:1; margin:4px 0; color:var(--accent); }
+  .board .sub{ font-size:13px; opacity:0.85; }
+
+  .statline{ display:flex; justify-content:space-between; padding:10px 0; border-bottom:1px solid var(--line); font-size:14px; }
+  .statline:last-child{ border-bottom:none; }
+  .statline b{ font-weight:800; }
+
+  .notif{ border-bottom:1px solid var(--line); padding:11px 0; font-size:13.5px; }
+  .notif:last-child{ border-bottom:none; }
+  .notif .t{ font-size:11px; color:var(--ink-soft); margin-bottom:2px; }
+
+  .queue-select{ display:flex; gap:10px; flex-wrap:wrap; align-items:flex-end; margin-bottom:18px; }
+  .queue-select > div{ flex:1; min-width:170px; }
+
+  .pin-gate{ max-width:320px; margin:60px auto; text-align:center; }
+  .pin-gate .card{ text-align:left; }
+
+  .actioncell{ display:flex; gap:6px; flex-wrap:wrap; align-items:center; }
+  .actioncell input{ width:82px; padding:7px 8px; font-size:13px; border-radius:8px; }
+
+  footer{ margin-top:40px; padding-top:16px; border-top:1px solid var(--line); font-size:11.5px; color:var(--ink-soft); line-height:1.6; }
+  .empty{ font-size:13.5px; color:var(--ink-soft); padding:14px 0; }
+  .hidden{ display:none !important; }
+</style>
+</head>
+<body>
+
+<!-- ============ LANGUAGE / LANDING PAGE ============ -->
+<div class="landing" id="landing">
+  <div class="brandrow">
+    <svg class="bridge-mark" viewBox="0 0 48 48" fill="none">
+      <path d="M4 34C10 22 16 22 24 22C32 22 38 22 44 34" stroke="#E2932B" stroke-width="3.4" stroke-linecap="round"/>
+      <path d="M4 34H44" stroke="#F4F6F3" stroke-width="3.4" stroke-linecap="round"/>
+      <circle cx="12" cy="34" r="2.4" fill="#F4F6F3"/>
+      <circle cx="24" cy="34" r="2.4" fill="#F4F6F3"/>
+      <circle cx="36" cy="34" r="2.4" fill="#F4F6F3"/>
+    </svg>
+    <h1>KrishiSetu</h1>
+  </div>
+  <div class="devname">कृषि सेतु</div>
+  <p class="lead" id="landingLead">Book a procurement slot, skip the queue, and get paid on time. Choose the language you're comfortable with to continue.</p>
+  <div class="lang-grid" id="langGrid"></div>
+  <div class="continue-row">
+    <button class="btn-continue" id="continueBtn" disabled>Continue</button>
+    <p class="partial-note" id="partialNote"></p>
+  </div>
+</div>
+
+<!-- ============ MAIN APP ============ -->
+<div id="app" class="hidden">
+  <header class="top">
+    <div class="top-inner">
+      <div class="brand">
+        <svg class="bridge-mark" viewBox="0 0 48 48" fill="none">
+          <path d="M4 34C10 22 16 22 24 22C32 22 38 22 44 34" stroke="#E2932B" stroke-width="4" stroke-linecap="round"/>
+          <path d="M4 34H44" stroke="#F4F6F3" stroke-width="4" stroke-linecap="round"/>
+          <circle cx="12" cy="34" r="2.6" fill="#F4F6F3"/>
+          <circle cx="24" cy="34" r="2.6" fill="#F4F6F3"/>
+          <circle cx="36" cy="34" r="2.6" fill="#F4F6F3"/>
+        </svg>
+        <div>
+          <h1>KrishiSetu</h1>
+          <p class="tagline" id="tagline"></p>
+        </div>
+      </div>
+      <button class="langswitch" id="langSwitchBtn">🌐 <span id="langSwitchLabel"></span></button>
+    </div>
+    <div class="top-inner" style="padding-top:0;">
+      <nav class="tabs" id="tabs">
+        <button data-tab="book" class="active"></button>
+        <button data-tab="track"></button>
+        <button data-tab="board"></button>
+        <button data-tab="admin"></button>
+      </nav>
+    </div>
+  </header>
+
+  <div class="wrap">
+    <section class="panel" id="panel"></section>
+    <footer id="footerNote"></footer>
+  </div>
+</div>
+
+<script>
+/* ================= CONFIG ================= */
+const CENTERS = ["Ellenabad Mandi", "Sirsa Grain Market", "Fatehabad APMC Yard"];
+const CROP_KEYS = ["wheat","paddy","cotton","mustard","bajra","sugarcane"];
+const RATES = {wheat:2275, paddy:2183, cotton:7121, mustard:5650, bajra:2500, sugarcane:340};
+const SLOTS = ["07:00–08:00","08:00–09:00","09:00–10:00","10:00–11:00","11:00–12:00","12:00–13:00",
+               "13:00–14:00","14:00–15:00","15:00–16:00","16:00–17:00","17:00–18:00"];
+const SLOT_CAPACITY = 12;
+const AVG_MIN_PER_FARMER = 6;
+const STATE_KEY = "krishisetu:state";
+const LANG_KEY = "krishisetu:lang";
+
+/* ================= LANGUAGES ================= */
+// fully translated languages
+const FULL_LANGS = ["en","hi","bn","te","mr","ta","gu","ur","kn","or","ml","pa","as"];
+// listed for authenticity, app content currently falls back to English
+const PARTIAL_LANGS = ["mai","sat","ks","ne","sd","kok","doi","mni","brx","sa"];
+
+const LANG_META = [
+  {code:"en", native:"English", eng:"English"},
+  {code:"hi", native:"हिंदी", eng:"Hindi"},
+  {code:"bn", native:"বাংলা", eng:"Bengali"},
+  {code:"te", native:"తెలుగు", eng:"Telugu"},
+  {code:"mr", native:"मराठी", eng:"Marathi"},
+  {code:"ta", native:"தமிழ்", eng:"Tamil"},
+  {code:"gu", native:"ગુજરાતી", eng:"Gujarati"},
+  {code:"ur", native:"اردو", eng:"Urdu"},
+  {code:"kn", native:"ಕನ್ನಡ", eng:"Kannada"},
+  {code:"or", native:"ଓଡ଼ିଆ", eng:"Odia"},
+  {code:"ml", native:"മലയാളം", eng:"Malayalam"},
+  {code:"pa", native:"ਪੰਜਾਬੀ", eng:"Punjabi"},
+  {code:"as", native:"অসমীয়া", eng:"Assamese"},
+  {code:"mai", native:"मैथिली", eng:"Maithili"},
+  {code:"sat", native:"ᱥᱟᱱᱛᱟᱲᱤ", eng:"Santali"},
+  {code:"ks", native:"कॉशुर", eng:"Kashmiri"},
+  {code:"ne", native:"नेपाली", eng:"Nepali"},
+  {code:"sd", native:"सिन्धी", eng:"Sindhi"},
+  {code:"kok", native:"कोंकणी", eng:"Konkani"},
+  {code:"doi", native:"डोगरी", eng:"Dogri"},
+  {code:"mni", native:"ꯃꯤꯇꯩꯂꯣꯟ", eng:"Manipuri"},
+  {code:"brx", native:"बड़ो", eng:"Bodo"},
+  {code:"sa", native:"संस्कृतम्", eng:"Sanskrit"},
+];
+
+/* ================= TRANSLATIONS ================= */
+const T = {
+en:{ tag:"Slot booking & queue management for procurement centres", navBook:"Book a Slot", navTrack:"Track My Booking", navBoard:"Live Queue Board", navAdmin:"Procurement Desk",
+  bookH:"Register & book a procurement slot", bookSub:"Choose a centre, date and hour. Get a token number and an estimated wait — no need to queue from early morning.",
+  lblName:"Farmer name", lblPhone:"Phone number", lblVillage:"Village", lblCrop:"Crop", lblQty:"Expected quantity (quintals)", lblCenter:"Procurement centre", lblDate:"Date", lblSlot:"Time slot", phonePh:"10-digit mobile",
+  btnConfirm:"Confirm booking", howH:"How it works", how1:"Register once — name, phone, crop & quantity", how2:"Pick a slot — hourly windows, limited seats",
+  how3:"Get a token — instant confirmation", how4:"Arrive on time — track your position from home", howNote:"Slots fill up — if one is full, you'll be asked to pick another hour.",
+  trackH:"Track your booking", trackSub:"Enter the phone number you booked with.", btnCheck:"Check status", notifH:"Notifications", notifSub:"Updates for this number",
+  aheadLbl:"Farmers ahead of you", waitLbl:"Estimated wait", tokenLbl:"Token", centerLbl:"Centre", slotLbl:"Slot", cropQtyLbl:"Crop / Qty", statusLbl:"Status", procuredLbl:"Procured quantity", paymentLbl:"Payment",
+  boardServing:"NOW SERVING", boardUpnext:"Up next", boardSnap:"Centre snapshot", statTotal:"Total booked today", statWaiting:"Currently waiting", statCompleted:"Served & paid", statCapacity:"Slot capacity",
+  congestionNote:"Pre-booked, sequenced tokens are designed to flatten queues that otherwise build up over the day.",
+  adminH:"Procurement desk", adminSub:"Staff access — enter the desk PIN.", pinPh:"PIN", btnEnter:"Enter", pinNote:"Prototype PIN: 1234", btnCallNext:"Call next token",
+  thToken:"Token", thFarmer:"Farmer", thCropQty:"Crop / Qty", thStatus:"Status", thAction:"Action",
+  stNowServing:"Now serving", stStillWaiting:"Still waiting", stCompleted2:"Completed today", stAvgCycle:"Avg. booking-to-payment time",
+  sBooked:"Booked", sProgress:"At counter", sProcured:"Procured", sPaid:"Paid", waitingCall:"Waiting for call", complete:"✓ Complete",
+  btnProcure:"Confirm procurement", btnPay:"Mark paid",
+  langH:"Choose your language", langLead:"Book a procurement slot, skip the queue, and get paid on time. Choose the language you're comfortable with to continue.", btnContinue:"Continue", changeLang:"Language",
+  partialNote:"Languages marked with a dot are shown in the picker but the app currently runs in English for them.",
+  footer:"Every booking, queue call, and payment updates in real time across every tab and device — the farmer view, the public board, and the procurement desk all stay in sync. In production, notifications here would connect to a real SMS/WhatsApp gateway, staff would sign in with real credentials instead of a demo PIN, and crop rates would come from a live MSP feed.",
+  noBookings:"No bookings found for this number.", noNotifs:"No notifications yet.", noWaiting:"No one waiting right now.", noRows:"No bookings for this centre/date yet.",
+  errPhone:"Enter a valid 10-digit phone number.", errPin:"Incorrect PIN.", searchPrompt:"Search a phone number to see updates.",
+  crops:{wheat:"Wheat", paddy:"Paddy", cotton:"Cotton", mustard:"Mustard", bajra:"Bajra", sugarcane:"Sugarcane"},
+  today:"Today", tomorrow:"Tomorrow", dayafter:"Day after" },
+
+hi:{ tag:"खरीद केंद्रों के लिए स्लॉट बुकिंग और कतार प्रबंधन", navBook:"स्लॉट बुक करें", navTrack:"अपनी बुकिंग देखें", navBoard:"लाइव कतार बोर्ड", navAdmin:"खरीद डेस्क",
+  bookH:"पंजीकरण करें और खरीद स्लॉट बुक करें", bookSub:"केंद्र, तारीख और समय चुनें। आपको एक टोकन नंबर और अनुमानित प्रतीक्षा समय मिलेगा — सुबह जल्दी कतार में लगने की ज़रूरत नहीं।",
+  lblName:"किसान का नाम", lblPhone:"फ़ोन नंबर", lblVillage:"गाँव", lblCrop:"फ़सल", lblQty:"अनुमानित मात्रा (क्विंटल)", lblCenter:"खरीद केंद्र", lblDate:"तारीख", lblSlot:"समय स्लॉट", phonePh:"10 अंकों का मोबाइल नंबर",
+  btnConfirm:"बुकिंग पक्की करें", howH:"यह कैसे काम करता है", how1:"एक बार पंजीकरण करें — नाम, फ़ोन, फ़सल और मात्रा", how2:"स्लॉट चुनें — प्रति घंटा, सीमित सीटें",
+  how3:"टोकन पाएं — तुरंत पुष्टि", how4:"समय पर पहुँचें — घर से ही अपनी स्थिति देखें", howNote:"स्लॉट भर सकते हैं — यदि कोई स्लॉट भरा है, तो दूसरा समय चुनने को कहा जाएगा।",
+  trackH:"अपनी बुकिंग ट्रैक करें", trackSub:"वह फ़ोन नंबर डालें जिससे आपने बुकिंग की थी।", btnCheck:"स्थिति देखें", notifH:"सूचनाएं", notifSub:"इस नंबर के लिए अपडेट",
+  aheadLbl:"आपसे पहले किसान", waitLbl:"अनुमानित प्रतीक्षा", tokenLbl:"टोकन", centerLbl:"केंद्र", slotLbl:"स्लॉट", cropQtyLbl:"फ़सल / मात्रा", statusLbl:"स्थिति", procuredLbl:"खरीदी गई मात्रा", paymentLbl:"भुगतान",
+  boardServing:"अभी सेवा में", boardUpnext:"आगे की बारी", boardSnap:"केंद्र की स्थिति", statTotal:"आज कुल बुकिंग", statWaiting:"अभी प्रतीक्षा में", statCompleted:"पूर्ण व भुगतान", statCapacity:"स्लॉट क्षमता",
+  congestionNote:"पहले से बुक टोकन दिनभर बनने वाली भीड़ को कम करने के लिए बनाए गए हैं।",
+  adminH:"खरीद डेस्क", adminSub:"स्टाफ़ पहुँच — डेस्क पिन दर्ज करें।", pinPh:"पिन", btnEnter:"प्रवेश करें", pinNote:"डेमो पिन: 1234", btnCallNext:"अगला टोकन बुलाएं",
+  thToken:"टोकन", thFarmer:"किसान", thCropQty:"फ़सल / मात्रा", thStatus:"स्थिति", thAction:"कार्रवाई",
+  stNowServing:"अभी सेवा में", stStillWaiting:"अभी प्रतीक्षारत", stCompleted2:"आज पूर्ण", stAvgCycle:"औसत बुकिंग-से-भुगतान समय",
+  sBooked:"बुक", sProgress:"काउंटर पर", sProcured:"खरीदा गया", sPaid:"भुगतान हुआ", waitingCall:"बुलावे की प्रतीक्षा", complete:"✓ पूर्ण",
+  btnProcure:"खरीद की पुष्टि करें", btnPay:"भुगतान चिह्नित करें",
+  langH:"अपनी भाषा चुनें", langLead:"खरीद स्लॉट बुक करें, कतार से बचें, और समय पर भुगतान पाएं। जारी रखने के लिए अपनी भाषा चुनें।", btnContinue:"जारी रखें", changeLang:"भाषा",
+  partialNote:"बिंदु चिह्न वाली भाषाएं सूची में दिखती हैं, पर ऐप अभी उनके लिए अंग्रेज़ी में चलता है।",
+  footer:"हर बुकिंग, कतार कॉल और भुगतान हर टैब और डिवाइस पर तुरंत अपडेट होता है — किसान व्यू, सार्वजनिक बोर्ड और खरीद डेस्क सभी समन्वित रहते हैं। वास्तविक उपयोग में यहाँ की सूचनाएं असली SMS/WhatsApp गेटवे से, स्टाफ़ लॉगिन असली प्रमाणीकरण से, और फ़सल दरें लाइव MSP फ़ीड से जुड़ेंगी।",
+  noBookings:"इस नंबर के लिए कोई बुकिंग नहीं मिली।", noNotifs:"अभी कोई सूचना नहीं।", noWaiting:"अभी कोई प्रतीक्षा में नहीं है।", noRows:"इस केंद्र/तारीख के लिए अभी कोई बुकिंग नहीं।",
+  errPhone:"मान्य 10 अंकों का फ़ोन नंबर डालें।", errPin:"गलत पिन।", searchPrompt:"अपडेट देखने के लिए फ़ोन नंबर खोजें।",
+  crops:{wheat:"गेहूं", paddy:"धान", cotton:"कपास", mustard:"सरसों", bajra:"बाजरा", sugarcane:"गन्ना"},
+  today:"आज", tomorrow:"कल", dayafter:"परसों" },
+
+bn:{ tag:"সংগ্রহ কেন্দ্রের জন্য স্লট বুকিং ও কিউ ব্যবস্থাপনা", navBook:"স্লট বুক করুন", navTrack:"আমার বুকিং দেখুন", navBoard:"লাইভ কিউ বোর্ড", navAdmin:"সংগ্রহ ডেস্ক",
+  bookH:"নিবন্ধন করুন ও সংগ্রহ স্লট বুক করুন", bookSub:"কেন্দ্র, তারিখ ও সময় বেছে নিন। একটি টোকেন নম্বর ও আনুমানিক অপেক্ষার সময় পাবেন — সকাল থেকে লাইনে দাঁড়াতে হবে না।",
+  lblName:"কৃষকের নাম", lblPhone:"ফোন নম্বর", lblVillage:"গ্রাম", lblCrop:"ফসল", lblQty:"প্রত্যাশিত পরিমাণ (কুইন্টাল)", lblCenter:"সংগ্রহ কেন্দ্র", lblDate:"তারিখ", lblSlot:"সময় স্লট", phonePh:"১০ সংখ্যার মোবাইল",
+  btnConfirm:"বুকিং নিশ্চিত করুন", howH:"এটি কীভাবে কাজ করে", how1:"একবার নিবন্ধন করুন — নাম, ফোন, ফসল ও পরিমাণ", how2:"স্লট বেছে নিন — প্রতি ঘণ্টায়, সীমিত আসন",
+  how3:"টোকেন পান — তাৎক্ষণিক নিশ্চিতকরণ", how4:"সময়মতো পৌঁছান — বাড়ি থেকে অবস্থান দেখুন", howNote:"স্লট পূর্ণ হয়ে যেতে পারে — পূর্ণ হলে অন্য সময় বেছে নিতে বলা হবে।",
+  trackH:"আপনার বুকিং ট্র্যাক করুন", trackSub:"যে ফোন নম্বর দিয়ে বুক করেছেন তা লিখুন।", btnCheck:"অবস্থা দেখুন", notifH:"বিজ্ঞপ্তি", notifSub:"এই নম্বরের জন্য আপডেট",
+  aheadLbl:"আপনার আগে কৃষক", waitLbl:"আনুমানিক অপেক্ষা", tokenLbl:"টোকেন", centerLbl:"কেন্দ্র", slotLbl:"স্লট", cropQtyLbl:"ফসল / পরিমাণ", statusLbl:"অবস্থা", procuredLbl:"সংগৃহীত পরিমাণ", paymentLbl:"পেমেন্ট",
+  boardServing:"এখন চলছে", boardUpnext:"পরবর্তী", boardSnap:"কেন্দ্রের অবস্থা", statTotal:"আজ মোট বুকিং", statWaiting:"বর্তমানে অপেক্ষমাণ", statCompleted:"সম্পন্ন ও পরিশোধিত", statCapacity:"স্লট ক্ষমতা",
+  congestionNote:"পূর্ব-বুক করা, ধারাবাহিক টোকেন সারাদিনের ভিড় কমাতে সাহায্য করে।",
+  adminH:"সংগ্রহ ডেস্ক", adminSub:"স্টাফ প্রবেশ — ডেস্ক পিন দিন।", pinPh:"পিন", btnEnter:"প্রবেশ করুন", pinNote:"ডেমো পিন: 1234", btnCallNext:"পরবর্তী টোকেন ডাকুন",
+  thToken:"টোকেন", thFarmer:"কৃষক", thCropQty:"ফসল / পরিমাণ", thStatus:"অবস্থা", thAction:"পদক্ষেপ",
+  stNowServing:"এখন চলছে", stStillWaiting:"এখনও অপেক্ষমাণ", stCompleted2:"আজ সম্পন্ন", stAvgCycle:"গড় বুকিং-থেকে-পেমেন্ট সময়",
+  sBooked:"বুক করা", sProgress:"কাউন্টারে", sProcured:"সংগৃহীত", sPaid:"পরিশোধিত", waitingCall:"ডাকের অপেক্ষায়", complete:"✓ সম্পন্ন",
+  btnProcure:"সংগ্রহ নিশ্চিত করুন", btnPay:"পরিশোধ চিহ্নিত করুন",
+  langH:"আপনার ভাষা বেছে নিন", langLead:"সংগ্রহ স্লট বুক করুন, লাইন এড়িয়ে যান, এবং সময়মতো পেমেন্ট পান। চালিয়ে যেতে আপনার ভাষা বেছে নিন।", btnContinue:"চালিয়ে যান", changeLang:"ভাষা",
+  partialNote:"বিন্দু চিহ্নিত ভাষাগুলি তালিকায় দেখা যায়, তবে অ্যাপ এখন সেগুলির জন্য ইংরেজিতে চলে।",
+  footer:"প্রতিটি বুকিং, কিউ কল এবং পেমেন্ট প্রতিটি ট্যাব ও ডিভাইসে সঙ্গে সঙ্গে আপডেট হয় — কৃষক ভিউ, পাবলিক বোর্ড এবং সংগ্রহ ডেস্ক সবই সমন্বিত থাকে। প্রকৃত ব্যবহারে বিজ্ঞপ্তিগুলি আসল SMS/WhatsApp গেটওয়ের সাথে, স্টাফ লগইন প্রকৃত প্রমাণীকরণের সাথে যুক্ত হবে।",
+  noBookings:"এই নম্বরের জন্য কোনো বুকিং পাওয়া যায়নি।", noNotifs:"এখনও কোনো বিজ্ঞপ্তি নেই।", noWaiting:"এখন কেউ অপেক্ষা করছে না।", noRows:"এই কেন্দ্র/তারিখের জন্য এখনও কোনো বুকিং নেই।",
+  errPhone:"একটি বৈধ ১০ সংখ্যার ফোন নম্বর দিন।", errPin:"ভুল পিন।", searchPrompt:"আপডেট দেখতে একটি ফোন নম্বর খুঁজুন।",
+  crops:{wheat:"গম", paddy:"ধান", cotton:"তুলা", mustard:"সরিষা", bajra:"বাজরা", sugarcane:"আখ"},
+  today:"আজ", tomorrow:"আগামীকাল", dayafter:"পরশু" },
+
+te:{ tag:"సేకరణ కేంద్రాల కోసం స్లాట్ బుకింగ్ & క్యూ నిర్వహణ", navBook:"స్లాట్ బుక్ చేయండి", navTrack:"నా బుకింగ్ చూడండి", navBoard:"లైవ్ క్యూ బోర్డ్", navAdmin:"సేకరణ డెస్క్",
+  bookH:"నమోదు చేసుకుని సేకరణ స్లాట్ బుక్ చేయండి", bookSub:"కేంద్రం, తేదీ, సమయం ఎంచుకోండి. టోకెన్ నంబర్ మరియు అంచనా వేచి ఉండే సమయం పొందుతారు — ఉదయమే క్యూలో నిలబడాల్సిన అవసరం లేదు.",
+  lblName:"రైతు పేరు", lblPhone:"ఫోన్ నంబర్", lblVillage:"గ్రామం", lblCrop:"పంట", lblQty:"అంచనా పరిమాణం (క్వింటాళ్లు)", lblCenter:"సేకరణ కేంద్రం", lblDate:"తేదీ", lblSlot:"సమయం స్లాట్", phonePh:"10 అంకెల మొబైల్",
+  btnConfirm:"బుకింగ్ నిర్ధారించండి", howH:"ఇది ఎలా పని చేస్తుంది", how1:"ఒకసారి నమోదు చేయండి — పేరు, ఫోన్, పంట, పరిమాణం", how2:"స్లాట్ ఎంచుకోండి — గంట వారీగా, పరిమిత సీట్లు",
+  how3:"టోకెన్ పొందండి — తక్షణ నిర్ధారణ", how4:"సమయానికి చేరుకోండి — ఇంటి నుండి మీ స్థానం చూడండి", howNote:"స్లాట్‌లు నిండిపోవచ్చు — నిండితే వేరే సమయం ఎంచుకోమని అడుగుతారు.",
+  trackH:"మీ బుకింగ్ ట్రాక్ చేయండి", trackSub:"మీరు బుక్ చేసిన ఫోన్ నంబర్ నమోదు చేయండి.", btnCheck:"స్థితి చూడండి", notifH:"నోటిఫికేషన్లు", notifSub:"ఈ నంబర్ కోసం అప్‌డేట్‌లు",
+  aheadLbl:"మీ ముందు రైతులు", waitLbl:"అంచనా వేచి ఉండే సమయం", tokenLbl:"టోకెన్", centerLbl:"కేంద్రం", slotLbl:"స్లాట్", cropQtyLbl:"పంట / పరిమాణం", statusLbl:"స్థితి", procuredLbl:"సేకరించిన పరిమాణం", paymentLbl:"చెల్లింపు",
+  boardServing:"ప్రస్తుతం సేవలో", boardUpnext:"తర్వాత", boardSnap:"కేంద్రం స్థితి", statTotal:"ఈరోజు మొత్తం బుకింగ్‌లు", statWaiting:"ప్రస్తుతం వేచి ఉన్నవారు", statCompleted:"పూర్తయి చెల్లించినవి", statCapacity:"స్లాట్ సామర్థ్యం",
+  congestionNote:"ముందుగా బుక్ చేసిన, వరుస టోకెన్‌లు రోజంతా పేరుకుపోయే రద్దీని తగ్గించేలా రూపొందించబడ్డాయి.",
+  adminH:"సేకరణ డెస్క్", adminSub:"సిబ్బంది ప్రవేశం — డెస్క్ పిన్ నమోదు చేయండి.", pinPh:"పిన్", btnEnter:"ప్రవేశించండి", pinNote:"డెమో పిన్: 1234", btnCallNext:"తదుపరి టోకెన్ పిలవండి",
+  thToken:"టోకెన్", thFarmer:"రైతు", thCropQty:"పంట / పరిమాణం", thStatus:"స్థితి", thAction:"చర్య",
+  stNowServing:"ప్రస్తుతం సేవలో", stStillWaiting:"ఇంకా వేచి ఉన్నవారు", stCompleted2:"ఈరోజు పూర్తయినవి", stAvgCycle:"సగటు బుకింగ్-నుండి-చెల్లింపు సమయం",
+  sBooked:"బుక్ చేయబడింది", sProgress:"కౌంటర్ వద్ద", sProcured:"సేకరించబడింది", sPaid:"చెల్లించబడింది", waitingCall:"పిలుపు కోసం వేచి ఉంది", complete:"✓ పూర్తయింది",
+  btnProcure:"సేకరణ నిర్ధారించండి", btnPay:"చెల్లింపుగా గుర్తించండి",
+  langH:"మీ భాషను ఎంచుకోండి", langLead:"సేకరణ స్లాట్ బుక్ చేయండి, క్యూను తప్పించండి, సమయానికి చెల్లింపు పొందండి. కొనసాగించడానికి మీ భాషను ఎంచుకోండి.", btnContinue:"కొనసాగించండి", changeLang:"భాష",
+  partialNote:"చుక్క గుర్తు ఉన్న భాషలు జాబితాలో కనిపిస్తాయి, కానీ యాప్ ప్రస్తుతం వాటికి ఆంగ్లంలో నడుస్తుంది.",
+  footer:"ప్రతి బుకింగ్, క్యూ కాల్ మరియు చెల్లింపు ప్రతి ట్యాబ్ మరియు పరికరంలో నిజ సమయంలో అప్‌డేట్ అవుతుంది — రైతు వీక్షణ, పబ్లిక్ బోర్డ్, సేకరణ డెస్క్ అన్నీ సమకాలీకరించబడతాయి. ఉత్పత్తిలో నోటిఫికేషన్‌లు నిజమైన SMS/WhatsApp గేట్‌వేకు అనుసంధానించబడతాయి.",
+  noBookings:"ఈ నంబర్ కోసం బుకింగ్‌లు కనుగొనబడలేదు.", noNotifs:"ఇంకా నోటిఫికేషన్‌లు లేవు.", noWaiting:"ప్రస్తుతం ఎవరూ వేచి లేరు.", noRows:"ఈ కేంద్రం/తేదీ కోసం ఇంకా బుకింగ్‌లు లేవు.",
+  errPhone:"చెల్లుబాటు అయ్యే 10 అంకెల ఫోన్ నంబర్ నమోదు చేయండి.", errPin:"తప్పు పిన్.", searchPrompt:"అప్‌డేట్‌లు చూడటానికి ఫోన్ నంబర్ శోధించండి.",
+  crops:{wheat:"గోధుమ", paddy:"వరి", cotton:"పత్తి", mustard:"ఆవాలు", bajra:"సజ్జ", sugarcane:"చెరకు"},
+  today:"ఈరోజు", tomorrow:"రేపు", dayafter:"ఎల్లుండి" },
+
+mr:{ tag:"खरेदी केंद्रांसाठी स्लॉट बुकिंग व रांग व्यवस्थापन", navBook:"स्लॉट बुक करा", navTrack:"माझी बुकिंग पहा", navBoard:"थेट रांग फलक", navAdmin:"खरेदी डेस्क",
+  bookH:"नोंदणी करा व खरेदी स्लॉट बुक करा", bookSub:"केंद्र, तारीख आणि वेळ निवडा. तुम्हाला टोकन क्रमांक व अंदाजे प्रतीक्षा वेळ मिळेल — सकाळी लवकर रांगेत उभे राहण्याची गरज नाही.",
+  lblName:"शेतकऱ्याचे नाव", lblPhone:"फोन नंबर", lblVillage:"गाव", lblCrop:"पीक", lblQty:"अपेक्षित प्रमाण (क्विंटल)", lblCenter:"खरेदी केंद्र", lblDate:"तारीख", lblSlot:"वेळ स्लॉट", phonePh:"10 अंकी मोबाइल",
+  btnConfirm:"बुकिंग निश्चित करा", howH:"हे कसे कार्य करते", how1:"एकदा नोंदणी करा — नाव, फोन, पीक व प्रमाण", how2:"स्लॉट निवडा — तासाभराचे, मर्यादित जागा",
+  how3:"टोकन मिळवा — त्वरित पुष्टी", how4:"वेळेत पोहोचा — घरातूनच तुमची स्थिती पहा", howNote:"स्लॉट भरू शकतात — भरल्यास दुसरी वेळ निवडण्यास सांगितले जाईल.",
+  trackH:"तुमची बुकिंग ट्रॅक करा", trackSub:"तुम्ही बुक केलेला फोन नंबर टाका.", btnCheck:"स्थिती पहा", notifH:"सूचना", notifSub:"या नंबरसाठी अद्यतने",
+  aheadLbl:"तुमच्या आधी शेतकरी", waitLbl:"अंदाजे प्रतीक्षा", tokenLbl:"टोकन", centerLbl:"केंद्र", slotLbl:"स्लॉट", cropQtyLbl:"पीक / प्रमाण", statusLbl:"स्थिती", procuredLbl:"खरेदी केलेले प्रमाण", paymentLbl:"पेमेंट",
+  boardServing:"सध्या सेवेत", boardUpnext:"पुढील", boardSnap:"केंद्राची स्थिती", statTotal:"आज एकूण बुकिंग", statWaiting:"सध्या प्रतीक्षेत", statCompleted:"पूर्ण व पेमेंट झाले", statCapacity:"स्लॉट क्षमता",
+  congestionNote:"आधीच बुक केलेले, क्रमवार टोकन दिवसभर साचणारी गर्दी कमी करण्यासाठी बनवले आहेत.",
+  adminH:"खरेदी डेस्क", adminSub:"कर्मचारी प्रवेश — डेस्क पिन टाका.", pinPh:"पिन", btnEnter:"प्रवेश करा", pinNote:"डेमो पिन: 1234", btnCallNext:"पुढील टोकन बोलवा",
+  thToken:"टोकन", thFarmer:"शेतकरी", thCropQty:"पीक / प्रमाण", thStatus:"स्थिती", thAction:"कृती",
+  stNowServing:"सध्या सेवेत", stStillWaiting:"अजून प्रतीक्षेत", stCompleted2:"आज पूर्ण", stAvgCycle:"सरासरी बुकिंग-ते-पेमेंट वेळ",
+  sBooked:"बुक केले", sProgress:"काउंटरवर", sProcured:"खरेदी झाले", sPaid:"पेमेंट झाले", waitingCall:"बोलावण्याची प्रतीक्षा", complete:"✓ पूर्ण",
+  btnProcure:"खरेदीची पुष्टी करा", btnPay:"पेमेंट नोंदवा",
+  langH:"तुमची भाषा निवडा", langLead:"खरेदी स्लॉट बुक करा, रांग टाळा आणि वेळेत पेमेंट मिळवा. सुरू ठेवण्यासाठी तुमची भाषा निवडा.", btnContinue:"सुरू ठेवा", changeLang:"भाषा",
+  partialNote:"ठिपका असलेल्या भाषा यादीत दिसतात, पण अ‍ॅप सध्या त्यांच्यासाठी इंग्रजीत चालतो.",
+  footer:"प्रत्येक बुकिंग, रांग कॉल आणि पेमेंट प्रत्येक टॅब व डिव्हाइसवर तत्काळ अद्ययावत होते — शेतकरी दृश्य, सार्वजनिक फलक व खरेदी डेस्क सर्व समक्रमित राहतात.",
+  noBookings:"या नंबरसाठी कोणतीही बुकिंग आढळली नाही.", noNotifs:"अजून कोणतीही सूचना नाही.", noWaiting:"सध्या कोणीही प्रतीक्षेत नाही.", noRows:"या केंद्र/तारखेसाठी अजून बुकिंग नाही.",
+  errPhone:"वैध 10 अंकी फोन नंबर टाका.", errPin:"चुकीचा पिन.", searchPrompt:"अद्यतने पाहण्यासाठी फोन नंबर शोधा.",
+  crops:{wheat:"गहू", paddy:"भात", cotton:"कापूस", mustard:"मोहरी", bajra:"बाजरी", sugarcane:"ऊस"},
+  today:"आज", tomorrow:"उद्या", dayafter:"परवा" },
+
+ta:{ tag:"கொள்முதல் மையங்களுக்கான ஸ்லாட் முன்பதிவு & வரிசை மேலாண்மை", navBook:"ஸ்லாட் முன்பதிவு செய்க", navTrack:"என் முன்பதிவைப் பார்க்க", navBoard:"நேரலை வரிசை பலகை", navAdmin:"கொள்முதல் மேசை",
+  bookH:"பதிவு செய்து கொள்முதல் ஸ்லாட் முன்பதிவு செய்யுங்கள்", bookSub:"மையம், தேதி, நேரத்தை தேர்ந்தெடுக்கவும். டோக்கன் எண்ணும் மதிப்பிடப்பட்ட காத்திருப்பு நேரமும் கிடைக்கும் — அதிகாலையில் வரிசையில் நிற்க வேண்டியதில்லை.",
+  lblName:"விவசாயி பெயர்", lblPhone:"தொலைபேசி எண்", lblVillage:"கிராமம்", lblCrop:"பயிர்", lblQty:"எதிர்பார்க்கும் அளவு (குவிண்டால்)", lblCenter:"கொள்முதல் மையம்", lblDate:"தேதி", lblSlot:"நேர ஸ்லாட்", phonePh:"10 இலக்க மொபைல்",
+  btnConfirm:"முன்பதிவை உறுதிசெய்க", howH:"இது எப்படி வேலை செய்கிறது", how1:"ஒரு முறை பதிவு செய்யுங்கள் — பெயர், தொலைபேசி, பயிர், அளவு", how2:"ஸ்லாட் தேர்ந்தெடுக்கவும் — மணிநேர இடைவெளிகள், வரையறுக்கப்பட்ட இடங்கள்",
+  how3:"டோக்கன் பெறுங்கள் — உடனடி உறுதிப்படுத்தல்", how4:"சரியான நேரத்தில் வாருங்கள் — வீட்டிலிருந்தே உங்கள் நிலையை கண்காணிக்கவும்", howNote:"ஸ்லாட்கள் நிரம்பலாம் — நிரம்பினால் வேறு நேரத்தை தேர்ந்தெடுக்கச் சொல்லப்படும்.",
+  trackH:"உங்கள் முன்பதிவை கண்காணிக்கவும்", trackSub:"நீங்கள் முன்பதிவு செய்த தொலைபேசி எண்ணை உள்ளிடவும்.", btnCheck:"நிலையை சரிபார்க்க", notifH:"அறிவிப்புகள்", notifSub:"இந்த எண்ணுக்கான புதுப்பிப்புகள்",
+  aheadLbl:"உங்களுக்கு முன் விவசாயிகள்", waitLbl:"மதிப்பிடப்பட்ட காத்திருப்பு", tokenLbl:"டோக்கன்", centerLbl:"மையம்", slotLbl:"ஸ்லாட்", cropQtyLbl:"பயிர் / அளவு", statusLbl:"நிலை", procuredLbl:"கொள்முதல் செய்யப்பட்ட அளவு", paymentLbl:"கட்டணம்",
+  boardServing:"இப்போது சேவையில்", boardUpnext:"அடுத்தது", boardSnap:"மைய நிலை", statTotal:"இன்று மொத்த முன்பதிவுகள்", statWaiting:"தற்போது காத்திருப்பவர்கள்", statCompleted:"முடிந்து கட்டணம் பெற்றவை", statCapacity:"ஸ்லாட் திறன்",
+  congestionNote:"முன்பதிவு செய்யப்பட்ட, வரிசையான டோக்கன்கள் நாள் முழுவதும் திரளும் நெரிசலை குறைக்க வடிவமைக்கப்பட்டுள்ளன.",
+  adminH:"கொள்முதல் மேசை", adminSub:"பணியாளர் அணுகல் — மேசை பின்னை உள்ளிடவும்.", pinPh:"பின்", btnEnter:"நுழையவும்", pinNote:"டெமோ பின்: 1234", btnCallNext:"அடுத்த டோக்கனை அழைக்க",
+  thToken:"டோக்கன்", thFarmer:"விவசாயி", thCropQty:"பயிர் / அளவு", thStatus:"நிலை", thAction:"செயல்",
+  stNowServing:"இப்போது சேவையில்", stStillWaiting:"இன்னும் காத்திருப்பவர்கள்", stCompleted2:"இன்று முடிந்தவை", stAvgCycle:"சராசரி முன்பதிவு-முதல்-கட்டணம் நேரம்",
+  sBooked:"முன்பதிவு", sProgress:"கவுண்டரில்", sProcured:"கொள்முதல் ஆனது", sPaid:"கட்டணம் பெற்றது", waitingCall:"அழைப்புக்காக காத்திருப்பு", complete:"✓ முடிந்தது",
+  btnProcure:"கொள்முதலை உறுதிசெய்க", btnPay:"கட்டணமாக குறிக்க",
+  langH:"உங்கள் மொழியை தேர்ந்தெடுக்கவும்", langLead:"கொள்முதல் ஸ்லாட் முன்பதிவு செய்யுங்கள், வரிசையை தவிர்க்கவும், சரியான நேரத்தில் கட்டணம் பெறுங்கள். தொடர உங்கள் மொழியை தேர்ந்தெடுக்கவும்.", btnContinue:"தொடரவும்", changeLang:"மொழி",
+  partialNote:"புள்ளி குறியிடப்பட்ட மொழிகள் பட்டியலில் தோன்றும், ஆனால் ஆப் தற்போது அவற்றுக்கு ஆங்கிலத்தில் இயங்குகிறது.",
+  footer:"ஒவ்வொரு முன்பதிவும், வரிசை அழைப்பும், கட்டணமும் ஒவ்வொரு தாவல் மற்றும் சாதனத்திலும் நேரடியாக புதுப்பிக்கப்படுகிறது.",
+  noBookings:"இந்த எண்ணுக்கு முன்பதிவுகள் எதுவும் இல்லை.", noNotifs:"இன்னும் அறிவிப்புகள் இல்லை.", noWaiting:"இப்போது யாரும் காத்திருக்கவில்லை.", noRows:"இந்த மையம்/தேதிக்கு முன்பதிவுகள் இல்லை.",
+  errPhone:"சரியான 10 இலக்க தொலைபேசி எண்ணை உள்ளிடவும்.", errPin:"தவறான பின்.", searchPrompt:"புதுப்பிப்புகளை பார்க்க தொலைபேசி எண்ணை தேடவும்.",
+  crops:{wheat:"கோதுமை", paddy:"நெல்", cotton:"பருத்தி", mustard:"கடுகு", bajra:"கம்பு", sugarcane:"கரும்பு"},
+  today:"இன்று", tomorrow:"நாளை", dayafter:"நாளை மறுநாள்" },
+
+gu:{ tag:"ખરીદ કેન્દ્રો માટે સ્લોટ બુકિંગ અને કતાર વ્યવસ્થાપન", navBook:"સ્લોટ બુક કરો", navTrack:"મારી બુકિંગ જુઓ", navBoard:"લાઈવ કતાર બોર્ડ", navAdmin:"ખરીદ ડેસ્ક",
+  bookH:"નોંધણી કરો અને ખરીદ સ્લોટ બુક કરો", bookSub:"કેન્દ્ર, તારીખ અને સમય પસંદ કરો. તમને ટોકન નંબર અને અંદાજિત રાહ સમય મળશે — સવારે વહેલા લાઈનમાં ઊભા રહેવાની જરૂર નથી.",
+  lblName:"ખેડૂતનું નામ", lblPhone:"ફોન નંબર", lblVillage:"ગામ", lblCrop:"પાક", lblQty:"અપેક્ષિત જથ્થો (ક્વિન્ટલ)", lblCenter:"ખરીદ કેન્દ્ર", lblDate:"તારીખ", lblSlot:"સમય સ્લોટ", phonePh:"10 અંકનો મોબાઈલ",
+  btnConfirm:"બુકિંગ પાકું કરો", howH:"આ કેવી રીતે કામ કરે છે", how1:"એકવાર નોંધણી કરો — નામ, ફોન, પાક અને જથ્થો", how2:"સ્લોટ પસંદ કરો — કલાકદીઠ, મર્યાદિત જગ્યા",
+  how3:"ટોકન મેળવો — તાત્કાલિક પુષ્ટિ", how4:"સમયસર પહોંચો — ઘરેથી જ તમારી સ્થિતિ જુઓ", howNote:"સ્લોટ ભરાઈ શકે છે — ભરાયેલ હોય તો બીજો સમય પસંદ કરવા કહેવાશે.",
+  trackH:"તમારી બુકિંગ ટ્રેક કરો", trackSub:"તમે બુક કરેલો ફોન નંબર દાખલ કરો.", btnCheck:"સ્થિતિ તપાસો", notifH:"સૂચનાઓ", notifSub:"આ નંબર માટે અપડેટ્સ",
+  aheadLbl:"તમારા પહેલા ખેડૂતો", waitLbl:"અંદાજિત રાહ", tokenLbl:"ટોકન", centerLbl:"કેન્દ્ર", slotLbl:"સ્લોટ", cropQtyLbl:"પાક / જથ્થો", statusLbl:"સ્થિતિ", procuredLbl:"ખરીદેલો જથ્થો", paymentLbl:"ચુકવણી",
+  boardServing:"અત્યારે સેવામાં", boardUpnext:"આગળનું", boardSnap:"કેન્દ્રની સ્થિતિ", statTotal:"આજની કુલ બુકિંગ", statWaiting:"અત્યારે રાહ જોઈ રહેલા", statCompleted:"પૂર્ણ અને ચૂકવેલ", statCapacity:"સ્લોટ ક્ષમતા",
+  congestionNote:"અગાઉથી બુક કરેલા, ક્રમબદ્ધ ટોકન દિવસભર જમા થતી ભીડ ઘટાડવા માટે બનાવાયા છે.",
+  adminH:"ખરીદ ડેસ્ક", adminSub:"સ્ટાફ પ્રવેશ — ડેસ્ક પિન દાખલ કરો.", pinPh:"પિન", btnEnter:"પ્રવેશ કરો", pinNote:"ડેમો પિન: 1234", btnCallNext:"આગલો ટોકન બોલાવો",
+  thToken:"ટોકન", thFarmer:"ખેડૂત", thCropQty:"પાક / જથ્થો", thStatus:"સ્થિતિ", thAction:"ક્રિયા",
+  stNowServing:"અત્યારે સેવામાં", stStillWaiting:"હજુ રાહ જોઈ રહેલા", stCompleted2:"આજે પૂર્ણ", stAvgCycle:"સરેરાશ બુકિંગ-થી-ચુકવણી સમય",
+  sBooked:"બુક થયું", sProgress:"કાઉન્ટર પર", sProcured:"ખરીદાયું", sPaid:"ચૂકવાયું", waitingCall:"બોલાવવાની રાહમાં", complete:"✓ પૂર્ણ",
+  btnProcure:"ખરીદીની પુષ્ટિ કરો", btnPay:"ચૂકવણી નોંધો",
+  langH:"તમારી ભાષા પસંદ કરો", langLead:"ખરીદ સ્લોટ બુક કરો, લાઈન ટાળો અને સમયસર ચુકવણી મેળવો. ચાલુ રાખવા તમારી ભાષા પસંદ કરો.", btnContinue:"ચાલુ રાખો", changeLang:"ભાષા",
+  partialNote:"ટપકાવાળી ભાષાઓ યાદીમાં દેખાય છે, પણ એપ હાલમાં તેમના માટે અંગ્રેજીમાં ચાલે છે.",
+  footer:"દરેક બુકિંગ, કતાર કૉલ અને ચુકવણી દરેક ટેબ અને ડિવાઇસ પર તરત જ અપડેટ થાય છે.",
+  noBookings:"આ નંબર માટે કોઈ બુકિંગ મળી નથી.", noNotifs:"હજુ કોઈ સૂચના નથી.", noWaiting:"અત્યારે કોઈ રાહ જોઈ રહ્યું નથી.", noRows:"આ કેન્દ્ર/તારીખ માટે હજુ બુકિંગ નથી.",
+  errPhone:"માન્ય 10 અંકનો ફોન નંબર દાખલ કરો.", errPin:"ખોટો પિન.", searchPrompt:"અપડેટ્સ જોવા ફોન નંબર શોધો.",
+  crops:{wheat:"ઘઉં", paddy:"ડાંગર", cotton:"કપાસ", mustard:"રાઈ", bajra:"બાજરી", sugarcane:"શેરડી"},
+  today:"આજે", tomorrow:"કાલે", dayafter:"પરમ દિવસે" },
+
+ur:{ tag:"خریداری مراکز کے لیے سلاٹ بکنگ اور قطار کا انتظام", navBook:"سلاٹ بک کریں", navTrack:"میری بکنگ دیکھیں", navBoard:"لائیو قطار بورڈ", navAdmin:"خریداری ڈیسک",
+  bookH:"رجسٹریشن کریں اور خریداری سلاٹ بک کریں", bookSub:"مرکز، تاریخ اور وقت منتخب کریں۔ آپ کو ٹوکن نمبر اور متوقع انتظار کا وقت ملے گا — صبح سویرے قطار میں کھڑے ہونے کی ضرورت نہیں۔",
+  lblName:"کسان کا نام", lblPhone:"فون نمبر", lblVillage:"گاؤں", lblCrop:"فصل", lblQty:"متوقع مقدار (کوئنٹل)", lblCenter:"خریداری مرکز", lblDate:"تاریخ", lblSlot:"وقت سلاٹ", phonePh:"10 ہندسوں کا موبائل",
+  btnConfirm:"بکنگ کی تصدیق کریں", howH:"یہ کیسے کام کرتا ہے", how1:"ایک بار رجسٹر کریں — نام، فون، فصل اور مقدار", how2:"سلاٹ منتخب کریں — فی گھنٹہ، محدود جگہیں",
+  how3:"ٹوکن حاصل کریں — فوری تصدیق", how4:"وقت پر پہنچیں — گھر سے اپنی پوزیشن دیکھیں", howNote:"سلاٹ بھر سکتے ہیں — بھرا ہو تو دوسرا وقت منتخب کرنے کو کہا جائے گا۔",
+  trackH:"اپنی بکنگ ٹریک کریں", trackSub:"وہ فون نمبر درج کریں جس سے آپ نے بکنگ کی تھی۔", btnCheck:"صورتحال دیکھیں", notifH:"اطلاعات", notifSub:"اس نمبر کے لیے اپڈیٹس",
+  aheadLbl:"آپ سے پہلے کسان", waitLbl:"متوقع انتظار", tokenLbl:"ٹوکن", centerLbl:"مرکز", slotLbl:"سلاٹ", cropQtyLbl:"فصل / مقدار", statusLbl:"صورتحال", procuredLbl:"خریدی گئی مقدار", paymentLbl:"ادائیگی",
+  boardServing:"اس وقت خدمت میں", boardUpnext:"اگلا", boardSnap:"مرکز کی صورتحال", statTotal:"آج کل بکنگ", statWaiting:"فی الحال انتظار میں", statCompleted:"مکمل اور ادا شدہ", statCapacity:"سلاٹ گنجائش",
+  congestionNote:"پہلے سے بک شدہ، ترتیب وار ٹوکن دن بھر جمع ہونے والی بھیڑ کم کرنے کے لیے بنائے گئے ہیں۔",
+  adminH:"خریداری ڈیسک", adminSub:"عملے کی رسائی — ڈیسک پن درج کریں۔", pinPh:"پن", btnEnter:"داخل ہوں", pinNote:"ڈیمو پن: 1234", btnCallNext:"اگلا ٹوکن بلائیں",
+  thToken:"ٹوکن", thFarmer:"کسان", thCropQty:"فصل / مقدار", thStatus:"صورتحال", thAction:"عمل",
+  stNowServing:"اس وقت خدمت میں", stStillWaiting:"ابھی انتظار میں", stCompleted2:"آج مکمل", stAvgCycle:"اوسط بکنگ سے ادائیگی وقت",
+  sBooked:"بک شدہ", sProgress:"کاؤنٹر پر", sProcured:"خریدا گیا", sPaid:"ادا شدہ", waitingCall:"بلاوے کا انتظار", complete:"✓ مکمل",
+  btnProcure:"خریداری کی تصدیق کریں", btnPay:"ادائیگی نشان زد کریں",
+  langH:"اپنی زبان منتخب کریں", langLead:"خریداری سلاٹ بک کریں، قطار سے بچیں، اور وقت پر ادائیگی حاصل کریں۔ جاری رکھنے کے لیے اپنی زبان منتخب کریں۔", btnContinue:"جاری رکھیں", changeLang:"زبان",
+  partialNote:"نقطے والی زبانیں فہرست میں دکھائی دیتی ہیں، لیکن ایپ فی الحال ان کے لیے انگریزی میں چلتی ہے۔",
+  footer:"ہر بکنگ، قطار کال اور ادائیگی ہر ٹیب اور آلے پر فوری اپڈیٹ ہوتی ہے۔",
+  noBookings:"اس نمبر کے لیے کوئی بکنگ نہیں ملی۔", noNotifs:"ابھی کوئی اطلاع نہیں۔", noWaiting:"اس وقت کوئی انتظار میں نہیں۔", noRows:"اس مرکز/تاریخ کے لیے ابھی کوئی بکنگ نہیں۔",
+  errPhone:"درست 10 ہندسوں کا فون نمبر درج کریں۔", errPin:"غلط پن۔", searchPrompt:"اپڈیٹس دیکھنے کے لیے فون نمبر تلاش کریں۔",
+  crops:{wheat:"گندم", paddy:"دھان", cotton:"کپاس", mustard:"سرسوں", bajra:"باجرہ", sugarcane:"گنا"},
+  today:"آج", tomorrow:"کل", dayafter:"پرسوں" },
+
+kn:{ tag:"ಸಂಗ್ರಹಣಾ ಕೇಂದ್ರಗಳಿಗಾಗಿ ಸ್ಲಾಟ್ ಬುಕಿಂಗ್ ಮತ್ತು ಕ್ಯೂ ನಿರ್ವಹಣೆ", navBook:"ಸ್ಲಾಟ್ ಬುಕ್ ಮಾಡಿ", navTrack:"ನನ್ನ ಬುಕಿಂಗ್ ನೋಡಿ", navBoard:"ಲೈವ್ ಕ್ಯೂ ಬೋರ್ಡ್", navAdmin:"ಸಂಗ್ರಹಣಾ ಡೆಸ್ಕ್",
+  bookH:"ನೋಂದಣಿ ಮಾಡಿ ಮತ್ತು ಸಂಗ್ರಹಣಾ ಸ್ಲಾಟ್ ಬುಕ್ ಮಾಡಿ", bookSub:"ಕೇಂದ್ರ, ದಿನಾಂಕ ಮತ್ತು ಸಮಯವನ್ನು ಆಯ್ಕೆ ಮಾಡಿ. ನಿಮಗೆ ಟೋಕನ್ ಸಂಖ್ಯೆ ಮತ್ತು ಅಂದಾಜು ಕಾಯುವ ಸಮಯ ಸಿಗುತ್ತದೆ — ಬೆಳಿಗ್ಗೆ ಬೇಗ ಸಾಲಿನಲ್ಲಿ ನಿಲ್ಲುವ ಅಗತ್ಯವಿಲ್ಲ.",
+  lblName:"ರೈತರ ಹೆಸರು", lblPhone:"ಫೋನ್ ಸಂಖ್ಯೆ", lblVillage:"ಗ್ರಾಮ", lblCrop:"ಬೆಳೆ", lblQty:"ನಿರೀಕ್ಷಿತ ಪ್ರಮಾಣ (ಕ್ವಿಂಟಲ್)", lblCenter:"ಸಂಗ್ರಹಣಾ ಕೇಂದ್ರ", lblDate:"ದಿನಾಂಕ", lblSlot:"ಸಮಯ ಸ್ಲಾಟ್", phonePh:"10 ಅಂಕಿಯ ಮೊಬೈಲ್",
+  btnConfirm:"ಬುಕಿಂಗ್ ದೃಢೀಕರಿಸಿ", howH:"ಇದು ಹೇಗೆ ಕೆಲಸ ಮಾಡುತ್ತದೆ", how1:"ಒಮ್ಮೆ ನೋಂದಣಿ ಮಾಡಿ — ಹೆಸರು, ಫೋನ್, ಬೆಳೆ ಮತ್ತು ಪ್ರಮಾಣ", how2:"ಸ್ಲಾಟ್ ಆಯ್ಕೆ ಮಾಡಿ — ಗಂಟೆಗೊಮ್ಮೆ, ಸೀಮಿತ ಸ್ಥಳಗಳು",
+  how3:"ಟೋಕನ್ ಪಡೆಯಿರಿ — ತಕ್ಷಣ ದೃಢೀಕರಣ", how4:"ಸಮಯಕ್ಕೆ ಬನ್ನಿ — ಮನೆಯಿಂದಲೇ ನಿಮ್ಮ ಸ್ಥಾನವನ್ನು ಟ್ರ್ಯಾಕ್ ಮಾಡಿ", howNote:"ಸ್ಲಾಟ್‌ಗಳು ತುಂಬಬಹುದು — ತುಂಬಿದ್ದರೆ ಬೇರೆ ಸಮಯ ಆಯ್ಕೆ ಮಾಡಲು ಕೇಳಲಾಗುತ್ತದೆ.",
+  trackH:"ನಿಮ್ಮ ಬುಕಿಂಗ್ ಟ್ರ್ಯಾಕ್ ಮಾಡಿ", trackSub:"ನೀವು ಬುಕ್ ಮಾಡಿದ ಫೋನ್ ಸಂಖ್ಯೆ ನಮೂದಿಸಿ.", btnCheck:"ಸ್ಥಿತಿ ಪರಿಶೀಲಿಸಿ", notifH:"ಅಧಿಸೂಚನೆಗಳು", notifSub:"ಈ ಸಂಖ್ಯೆಗಾಗಿ ಅಪ್‌ಡೇಟ್‌ಗಳು",
+  aheadLbl:"ನಿಮಗಿಂತ ಮೊದಲು ರೈತರು", waitLbl:"ಅಂದಾಜು ಕಾಯುವ ಸಮಯ", tokenLbl:"ಟೋಕನ್", centerLbl:"ಕೇಂದ್ರ", slotLbl:"ಸ್ಲಾಟ್", cropQtyLbl:"ಬೆಳೆ / ಪ್ರಮಾಣ", statusLbl:"ಸ್ಥಿತಿ", procuredLbl:"ಸಂಗ್ರಹಿಸಿದ ಪ್ರಮಾಣ", paymentLbl:"ಪಾವತಿ",
+  boardServing:"ಈಗ ಸೇವೆಯಲ್ಲಿ", boardUpnext:"ಮುಂದಿನದು", boardSnap:"ಕೇಂದ್ರದ ಸ್ಥಿತಿ", statTotal:"ಇಂದು ಒಟ್ಟು ಬುಕಿಂಗ್‌ಗಳು", statWaiting:"ಪ್ರಸ್ತುತ ಕಾಯುತ್ತಿರುವವರು", statCompleted:"ಪೂರ್ಣಗೊಂಡು ಪಾವತಿಯಾದವು", statCapacity:"ಸ್ಲಾಟ್ ಸಾಮರ್ಥ್ಯ",
+  congestionNote:"ಮೊದಲೇ ಬುಕ್ ಮಾಡಿದ, ಅನುಕ್ರಮ ಟೋಕನ್‌ಗಳು ದಿನವಿಡೀ ಸಂಗ್ರಹವಾಗುವ ಜನಸಂದಣಿಯನ್ನು ಕಡಿಮೆ ಮಾಡಲು ವಿನ್ಯಾಸಗೊಳಿಸಲಾಗಿದೆ.",
+  adminH:"ಸಂಗ್ರಹಣಾ ಡೆಸ್ಕ್", adminSub:"ಸಿಬ್ಬಂದಿ ಪ್ರವೇಶ — ಡೆಸ್ಕ್ ಪಿನ್ ನಮೂದಿಸಿ.", pinPh:"ಪಿನ್", btnEnter:"ಪ್ರವೇಶಿಸಿ", pinNote:"ಡೆಮೊ ಪಿನ್: 1234", btnCallNext:"ಮುಂದಿನ ಟೋಕನ್ ಕರೆಯಿರಿ",
+  thToken:"ಟೋಕನ್", thFarmer:"ರೈತ", thCropQty:"ಬೆಳೆ / ಪ್ರಮಾಣ", thStatus:"ಸ್ಥಿತಿ", thAction:"ಕ್ರಿಯೆ",
+  stNowServing:"ಈಗ ಸೇವೆಯಲ್ಲಿ", stStillWaiting:"ಇನ್ನೂ ಕಾಯುತ್ತಿರುವವರು", stCompleted2:"ಇಂದು ಪೂರ್ಣಗೊಂಡವು", stAvgCycle:"ಸರಾಸರಿ ಬುಕಿಂಗ್-ಪಾವತಿ ಸಮಯ",
+  sBooked:"ಬುಕ್ ಮಾಡಲಾಗಿದೆ", sProgress:"ಕೌಂಟರ್‌ನಲ್ಲಿ", sProcured:"ಸಂಗ್ರಹಿಸಲಾಗಿದೆ", sPaid:"ಪಾವತಿಯಾಗಿದೆ", waitingCall:"ಕರೆಗಾಗಿ ಕಾಯುತ್ತಿದೆ", complete:"✓ ಪೂರ್ಣ",
+  btnProcure:"ಸಂಗ್ರಹಣೆ ದೃಢೀಕರಿಸಿ", btnPay:"ಪಾವತಿಯಾಗಿ ಗುರುತಿಸಿ",
+  langH:"ನಿಮ್ಮ ಭಾಷೆಯನ್ನು ಆಯ್ಕೆ ಮಾಡಿ", langLead:"ಸಂಗ್ರಹಣಾ ಸ್ಲಾಟ್ ಬುಕ್ ಮಾಡಿ, ಕ್ಯೂ ತಪ್ಪಿಸಿ, ಸಮಯಕ್ಕೆ ಪಾವತಿ ಪಡೆಯಿರಿ. ಮುಂದುವರಿಸಲು ನಿಮ್ಮ ಭಾಷೆಯನ್ನು ಆಯ್ಕೆ ಮಾಡಿ.", btnContinue:"ಮುಂದುವರಿಸಿ", changeLang:"ಭಾಷೆ",
+  partialNote:"ಚುಕ್ಕೆ ಗುರುತಿನ ಭಾಷೆಗಳು ಪಟ್ಟಿಯಲ್ಲಿ ಕಾಣಿಸುತ್ತವೆ, ಆದರೆ ಆ್ಯಪ್ ಪ್ರಸ್ತುತ ಅವುಗಳಿಗೆ ಇಂಗ್ಲಿಷ್‌ನಲ್ಲಿ ಚಲಿಸುತ್ತದೆ.",
+  footer:"ಪ್ರತಿ ಬುಕಿಂಗ್, ಕ್ಯೂ ಕರೆ ಮತ್ತು ಪಾವತಿ ಪ್ರತಿ ಟ್ಯಾಬ್ ಮತ್ತು ಸಾಧನದಲ್ಲಿ ತಕ್ಷಣ ಅಪ್‌ಡೇಟ್ ಆಗುತ್ತದೆ.",
+  noBookings:"ಈ ಸಂಖ್ಯೆಗಾಗಿ ಯಾವುದೇ ಬುಕಿಂಗ್ ಕಂಡುಬಂದಿಲ್ಲ.", noNotifs:"ಇನ್ನೂ ಅಧಿಸೂಚನೆಗಳಿಲ್ಲ.", noWaiting:"ಈಗ ಯಾರೂ ಕಾಯುತ್ತಿಲ್ಲ.", noRows:"ಈ ಕೇಂದ್ರ/ದಿನಾಂಕಕ್ಕೆ ಇನ್ನೂ ಬುಕಿಂಗ್‌ಗಳಿಲ್ಲ.",
+  errPhone:"ಮಾನ್ಯ 10 ಅಂಕಿಯ ಫೋನ್ ಸಂಖ್ಯೆ ನಮೂದಿಸಿ.", errPin:"ತಪ್ಪು ಪಿನ್.", searchPrompt:"ಅಪ್‌ಡೇಟ್‌ಗಳನ್ನು ನೋಡಲು ಫೋನ್ ಸಂಖ್ಯೆ ಹುಡುಕಿ.",
+  crops:{wheat:"ಗೋಧಿ", paddy:"ಭತ್ತ", cotton:"ಹತ್ತಿ", mustard:"ಸಾಸಿವೆ", bajra:"ಸಜ್ಜೆ", sugarcane:"ಕಬ್ಬು"},
+  today:"ಇಂದು", tomorrow:"ನಾಳೆ", dayafter:"ನಾಡಿದ್ದು" },
+
+or:{ tag:"ସଂଗ୍ରହ କେନ୍ଦ୍ର ପାଇଁ ସ୍ଲଟ୍ ବୁକିଂ ଓ ଧାଡି ପରିଚାଳନା", navBook:"ସ୍ଲଟ୍ ବୁକ୍ କରନ୍ତୁ", navTrack:"ମୋ ବୁକିଂ ଦେଖନ୍ତୁ", navBoard:"ଲାଇଭ୍ ଧାଡି ବୋର୍ଡ", navAdmin:"ସଂଗ୍ରହ ଡେସ୍କ",
+  bookH:"ପଞ୍ଜୀକରଣ କରନ୍ତୁ ଓ ସଂଗ୍ରହ ସ୍ଲଟ୍ ବୁକ୍ କରନ୍ତୁ", bookSub:"କେନ୍ଦ୍ର, ତାରିଖ ଓ ସମୟ ବାଛନ୍ତୁ। ଆପଣ ଏକ ଟୋକନ୍ ନମ୍ବର ଓ ଆକଳିତ ଅପେକ୍ଷା ସମୟ ପାଇବେ — ସକାଳୁ ଧାଡିରେ ଠିଆ ହେବାର ଆବଶ୍ୟକତା ନାହିଁ।",
+  lblName:"କୃଷକଙ୍କ ନାମ", lblPhone:"ଫୋନ୍ ନମ୍ବର", lblVillage:"ଗାଁ", lblCrop:"ଫସଲ", lblQty:"ଆକଳିତ ପରିମାଣ (କ୍ୱିଣ୍ଟାଲ)", lblCenter:"ସଂଗ୍ରହ କେନ୍ଦ୍ର", lblDate:"ତାରିଖ", lblSlot:"ସମୟ ସ୍ଲଟ୍", phonePh:"10 ଅଙ୍କ ମୋବାଇଲ୍",
+  btnConfirm:"ବୁକିଂ ନିଶ୍ଚିତ କରନ୍ତୁ", howH:"ଏହା କିପରି କାମ କରେ", how1:"ଥରେ ପଞ୍ଜୀକରଣ କରନ୍ତୁ — ନାମ, ଫୋନ୍, ଫସଲ ଓ ପରିମାଣ", how2:"ସ୍ଲଟ୍ ବାଛନ୍ତୁ — ଘଣ୍ଟାଏ ଅନ୍ତରରେ, ସୀମିତ ସ୍ଥାନ",
+  how3:"ଟୋକନ୍ ପାଆନ୍ତୁ — ତତକ୍ଷଣାତ ନିଶ୍ଚିତକରଣ", how4:"ସମୟରେ ପହଞ୍ଚନ୍ତୁ — ଘରୁ ହିଁ ଆପଣଙ୍କ ସ୍ଥିତି ଦେଖନ୍ତୁ", howNote:"ସ୍ଲଟ୍ ପୂର୍ଣ୍ଣ ହୋଇପାରେ — ପୂର୍ଣ୍ଣ ହେଲେ ଅନ୍ୟ ସମୟ ବାଛିବାକୁ କୁହାଯିବ।",
+  trackH:"ଆପଣଙ୍କ ବୁକିଂ ଟ୍ରାକ୍ କରନ୍ତୁ", trackSub:"ଆପଣ ବୁକ୍ କରିଥିବା ଫୋନ୍ ନମ୍ବର ଦିଅନ୍ତୁ।", btnCheck:"ସ୍ଥିତି ଯାଞ୍ଚ କରନ୍ତୁ", notifH:"ବିଜ୍ଞପ୍ତି", notifSub:"ଏହି ନମ୍ବର ପାଇଁ ଅପଡେଟ୍",
+  aheadLbl:"ଆପଣଙ୍କ ପୂର୍ବରୁ କୃଷକ", waitLbl:"ଆକଳିତ ଅପେକ୍ଷା", tokenLbl:"ଟୋକନ୍", centerLbl:"କେନ୍ଦ୍ର", slotLbl:"ସ୍ଲଟ୍", cropQtyLbl:"ଫସଲ / ପରିମାଣ", statusLbl:"ସ୍ଥିତି", procuredLbl:"ସଂଗ୍ରହିତ ପରିମାଣ", paymentLbl:"ପେମେଣ୍ଟ",
+  boardServing:"ବର୍ତ୍ତମାନ ସେବାରେ", boardUpnext:"ପରବର୍ତ୍ତୀ", boardSnap:"କେନ୍ଦ୍ର ସ୍ଥିତି", statTotal:"ଆଜି ମୋଟ ବୁକିଂ", statWaiting:"ବର୍ତ୍ତମାନ ଅପେକ୍ଷାରେ", statCompleted:"ସମ୍ପୂର୍ଣ୍ଣ ଓ ଦେୟ ପ୍ରଦତ୍ତ", statCapacity:"ସ୍ଲଟ୍ କ୍ଷମତା",
+  congestionNote:"ପୂର୍ବ-ବୁକ୍ ହୋଇଥିବା, କ୍ରମାନ୍ୱୟ ଟୋକନ୍ ଦିନସାରା ଜମା ହେଉଥିବା ଭିଡ଼କୁ କମାଇବା ପାଇଁ ତିଆରି।",
+  adminH:"ସଂଗ୍ରହ ଡେସ୍କ", adminSub:"କର୍ମଚାରୀ ପ୍ରବେଶ — ଡେସ୍କ ପିନ୍ ଦିଅନ୍ତୁ।", pinPh:"ପିନ୍", btnEnter:"ପ୍ରବେଶ କରନ୍ତୁ", pinNote:"ଡେମୋ ପିନ୍: 1234", btnCallNext:"ପରବର୍ତ୍ତୀ ଟୋକନ୍ ଡାକନ୍ତୁ",
+  thToken:"ଟୋକନ୍", thFarmer:"କୃଷକ", thCropQty:"ଫସଲ / ପରିମାଣ", thStatus:"ସ୍ଥିତି", thAction:"କାର୍ଯ୍ୟ",
+  stNowServing:"ବର୍ତ୍ତମାନ ସେବାରେ", stStillWaiting:"ଏବେ ବି ଅପେକ୍ଷାରେ", stCompleted2:"ଆଜି ସମ୍ପୂର୍ଣ୍ଣ", stAvgCycle:"ହାରାହାରି ବୁକିଂ-ରୁ-ପେମେଣ୍ଟ ସମୟ",
+  sBooked:"ବୁକ୍ ହେଲା", sProgress:"କାଉଣ୍ଟରରେ", sProcured:"ସଂଗ୍ରହ ହେଲା", sPaid:"ଦେୟ ପ୍ରଦତ୍ତ", waitingCall:"ଡାକ ପାଇଁ ଅପେକ୍ଷାରେ", complete:"✓ ସମ୍ପୂର୍ଣ୍ଣ",
+  btnProcure:"ସଂଗ୍ରହ ନିଶ୍ଚିତ କରନ୍ତୁ", btnPay:"ପେମେଣ୍ଟ ଚିହ୍ନଟ କରନ୍ତୁ",
+  langH:"ଆପଣଙ୍କ ଭାଷା ବାଛନ୍ତୁ", langLead:"ସଂଗ୍ରହ ସ୍ଲଟ୍ ବୁକ୍ କରନ୍ତୁ, ଧାଡିରୁ ବଞ୍ଚନ୍ତୁ, ଓ ସମୟରେ ପେମେଣ୍ଟ ପାଆନ୍ତୁ। ଜାରି ରଖିବାକୁ ଆପଣଙ୍କ ଭାଷା ବାଛନ୍ତୁ।", btnContinue:"ଜାରି ରଖନ୍ତୁ", changeLang:"ଭାଷା",
+  partialNote:"ବିନ୍ଦୁ ଚିହ୍ନିତ ଭାଷାଗୁଡ଼ିକ ତାଲିକାରେ ଦେଖାଯାଏ, କିନ୍ତୁ ଆପ୍ ବର୍ତ୍ତମାନ ସେମାନଙ୍କ ପାଇଁ ଇଂରାଜୀରେ ଚାଲେ।",
+  footer:"ପ୍ରତ୍ୟେକ ବୁକିଂ, ଧାଡି କଲ୍ ଓ ପେମେଣ୍ଟ ପ୍ରତ୍ୟେକ ଟ୍ୟାବ୍ ଓ ଡିଭାଇସ୍‌ରେ ତୁରନ୍ତ ଅପଡେଟ୍ ହୁଏ।",
+  noBookings:"ଏହି ନମ୍ବର ପାଇଁ କୌଣସି ବୁକିଂ ମିଳିଲା ନାହିଁ।", noNotifs:"ଏପର୍ଯ୍ୟନ୍ତ କୌଣସି ବିଜ୍ଞପ୍ତି ନାହିଁ।", noWaiting:"ବର୍ତ୍ତମାନ କେହି ଅପେକ୍ଷାରେ ନାହାଁନ୍ତି।", noRows:"ଏହି କେନ୍ଦ୍ର/ତାରିଖ ପାଇଁ ଏପର୍ଯ୍ୟନ୍ତ ବୁକିଂ ନାହିଁ।",
+  errPhone:"ବୈଧ 10 ଅଙ୍କ ଫୋନ୍ ନମ୍ବର ଦିଅନ୍ତୁ।", errPin:"ଭୁଲ ପିନ୍।", searchPrompt:"ଅପଡେଟ୍ ଦେଖିବାକୁ ଫୋନ୍ ନମ୍ବର ଖୋଜନ୍ତୁ।",
+  crops:{wheat:"ଗହମ", paddy:"ଧାନ", cotton:"କପା", mustard:"ସୋରିଷ", bajra:"ବାଜରା", sugarcane:"ଆଖୁ"},
+  today:"ଆଜି", tomorrow:"ଆସନ୍ତାକାଲି", dayafter:"ପରଶୁ" },
+
+ml:{ tag:"സംഭരണ കേന്ദ്രങ്ങൾക്കുള്ള സ്ലോട്ട് ബുക്കിംഗ് & ക്യൂ മാനേജ്‌മെന്റ്", navBook:"സ്ലോട്ട് ബുക്ക് ചെയ്യുക", navTrack:"എന്റെ ബുക്കിംഗ് കാണുക", navBoard:"തത്സമയ ക്യൂ ബോർഡ്", navAdmin:"സംഭരണ ഡെസ്ക്",
+  bookH:"രജിസ്റ്റർ ചെയ്ത് സംഭരണ സ്ലോട്ട് ബുക്ക് ചെയ്യുക", bookSub:"കേന്ദ്രം, തീയതി, സമയം തിരഞ്ഞെടുക്കുക. ടോക്കൺ നമ്പറും കണക്കാക്കിയ കാത്തിരിപ്പ് സമയവും ലഭിക്കും — രാവിലെ നേരത്തെ ക്യൂവിൽ നിൽക്കേണ്ട ആവശ്യമില്ല.",
+  lblName:"കർഷകന്റെ പേര്", lblPhone:"ഫോൺ നമ്പർ", lblVillage:"ഗ്രാമം", lblCrop:"വിള", lblQty:"പ്രതീക്ഷിക്കുന്ന അളവ് (ക്വിന്റൽ)", lblCenter:"സംഭരണ കേന്ദ്രം", lblDate:"തീയതി", lblSlot:"സമയ സ്ലോട്ട്", phonePh:"10 അക്ക മൊബൈൽ",
+  btnConfirm:"ബുക്കിംഗ് സ്ഥിരീകരിക്കുക", howH:"ഇത് എങ്ങനെ പ്രവർത്തിക്കുന്നു", how1:"ഒരിക്കൽ രജിസ്റ്റർ ചെയ്യുക — പേര്, ഫോൺ, വിള, അളവ്", how2:"സ്ലോട്ട് തിരഞ്ഞെടുക്കുക — മണിക്കൂർ ഇടവേളകൾ, പരിമിത സീറ്റുകൾ",
+  how3:"ടോക്കൺ നേടുക — തൽക്ഷണ സ്ഥിരീകരണം", how4:"സമയത്ത് എത്തുക — വീട്ടിൽ നിന്ന് നിങ്ങളുടെ സ്ഥാനം ട്രാക്ക് ചെയ്യുക", howNote:"സ്ലോട്ടുകൾ നിറയാം — നിറഞ്ഞാൽ മറ്റൊരു സമയം തിരഞ്ഞെടുക്കാൻ ആവശ്യപ്പെടും.",
+  trackH:"നിങ്ങളുടെ ബുക്കിംഗ് ട്രാക്ക് ചെയ്യുക", trackSub:"നിങ്ങൾ ബുക്ക് ചെയ്ത ഫോൺ നമ്പർ നൽകുക.", btnCheck:"സ്ഥിതി പരിശോധിക്കുക", notifH:"അറിയിപ്പുകൾ", notifSub:"ഈ നമ്പറിനുള്ള അപ്‌ഡേറ്റുകൾ",
+  aheadLbl:"നിങ്ങൾക്ക് മുന്നിൽ കർഷകർ", waitLbl:"കണക്കാക്കിയ കാത്തിരിപ്പ്", tokenLbl:"ടോക്കൺ", centerLbl:"കേന്ദ്രം", slotLbl:"സ്ലോട്ട്", cropQtyLbl:"വിള / അളവ്", statusLbl:"സ്ഥിതി", procuredLbl:"സംഭരിച്ച അളവ്", paymentLbl:"പേയ്‌മെന്റ്",
+  boardServing:"ഇപ്പോൾ സേവനത്തിൽ", boardUpnext:"അടുത്തത്", boardSnap:"കേന്ദ്ര സ്ഥിതി", statTotal:"ഇന്ന് ആകെ ബുക്കിംഗുകൾ", statWaiting:"നിലവിൽ കാത്തിരിക്കുന്നവർ", statCompleted:"പൂർത്തിയായി പണം നൽകി", statCapacity:"സ്ലോട്ട് ശേഷി",
+  congestionNote:"മുൻകൂട്ടി ബുക്ക് ചെയ്ത, ക്രമമായ ടോക്കണുകൾ ദിവസം മുഴുവൻ കൂടുന്ന തിരക്ക് കുറയ്ക്കാൻ രൂപകൽപ്പന ചെയ്തതാണ്.",
+  adminH:"സംഭരണ ഡെസ്ക്", adminSub:"സ്റ്റാഫ് ആക്സസ് — ഡെസ്ക് പിൻ നൽകുക.", pinPh:"പിൻ", btnEnter:"പ്രവേശിക്കുക", pinNote:"ഡെമോ പിൻ: 1234", btnCallNext:"അടുത്ത ടോക്കൺ വിളിക്കുക",
+  thToken:"ടോക്കൺ", thFarmer:"കർഷകൻ", thCropQty:"വിള / അളവ്", thStatus:"സ്ഥിതി", thAction:"നടപടി",
+  stNowServing:"ഇപ്പോൾ സേവനത്തിൽ", stStillWaiting:"ഇപ്പോഴും കാത്തിരിക്കുന്നവർ", stCompleted2:"ഇന്ന് പൂർത്തിയായവ", stAvgCycle:"ശരാശരി ബുക്കിംഗ്-മുതൽ-പേയ്‌മെന്റ് സമയം",
+  sBooked:"ബുക്ക് ചെയ്തു", sProgress:"കൗണ്ടറിൽ", sProcured:"സംഭരിച്ചു", sPaid:"പണം നൽകി", waitingCall:"വിളിക്കായി കാത്തിരിക്കുന്നു", complete:"✓ പൂർത്തിയായി",
+  btnProcure:"സംഭരണം സ്ഥിരീകരിക്കുക", btnPay:"പണമടച്ചതായി അടയാളപ്പെടുത്തുക",
+  langH:"നിങ്ങളുടെ ഭാഷ തിരഞ്ഞെടുക്കുക", langLead:"സംഭരണ സ്ലോട്ട് ബുക്ക് ചെയ്യുക, ക്യൂ ഒഴിവാക്കുക, സമയത്ത് പണം നേടുക. തുടരാൻ നിങ്ങളുടെ ഭാഷ തിരഞ്ഞെടുക്കുക.", btnContinue:"തുടരുക", changeLang:"ഭാഷ",
+  partialNote:"ഡോട്ട് അടയാളപ്പെടുത്തിയ ഭാഷകൾ പട്ടികയിൽ കാണിക്കും, പക്ഷേ ആപ്പ് നിലവിൽ അവയ്ക്ക് ഇംഗ്ലീഷിലാണ് പ്രവർത്തിക്കുന്നത്.",
+  footer:"ഓരോ ബുക്കിംഗും, ക്യൂ കോളും, പേയ്‌മെന്റും ഓരോ ടാബിലും ഡിവൈസിലും തത്സമയം അപ്‌ഡേറ്റാകുന്നു.",
+  noBookings:"ഈ നമ്പറിന് ബുക്കിംഗുകളൊന്നും കണ്ടെത്തിയില്ല.", noNotifs:"ഇതുവരെ അറിയിപ്പുകളില്ല.", noWaiting:"ഇപ്പോൾ ആരും കാത്തിരിക്കുന്നില്ല.", noRows:"ഈ കേന്ദ്രം/തീയതിക്ക് ഇതുവരെ ബുക്കിംഗുകളില്ല.",
+  errPhone:"സാധുവായ 10 അക്ക ഫോൺ നമ്പർ നൽകുക.", errPin:"തെറ്റായ പിൻ.", searchPrompt:"അപ്‌ഡേറ്റുകൾ കാണാൻ ഫോൺ നമ്പർ തിരയുക.",
+  crops:{wheat:"ഗോതമ്പ്", paddy:"നെല്ല്", cotton:"പരുത്തി", mustard:"കടുക്", bajra:"മുത്താറി", sugarcane:"കരിമ്പ്"},
+  today:"ഇന്ന്", tomorrow:"നാളെ", dayafter:"മറ്റന്നാൾ" },
+
+pa:{ tag:"ਖਰੀਦ ਕੇਂਦਰਾਂ ਲਈ ਸਲਾਟ ਬੁਕਿੰਗ ਅਤੇ ਕਤਾਰ ਪ੍ਰਬੰਧਨ", navBook:"ਸਲਾਟ ਬੁੱਕ ਕਰੋ", navTrack:"ਮੇਰੀ ਬੁਕਿੰਗ ਵੇਖੋ", navBoard:"ਲਾਈਵ ਕਤਾਰ ਬੋਰਡ", navAdmin:"ਖਰੀਦ ਡੈਸਕ",
+  bookH:"ਰਜਿਸਟਰ ਕਰੋ ਅਤੇ ਖਰੀਦ ਸਲਾਟ ਬੁੱਕ ਕਰੋ", bookSub:"ਕੇਂਦਰ, ਤਾਰੀਖ ਅਤੇ ਸਮਾਂ ਚੁਣੋ। ਤੁਹਾਨੂੰ ਟੋਕਨ ਨੰਬਰ ਅਤੇ ਅਨੁਮਾਨਿਤ ਉਡੀਕ ਸਮਾਂ ਮਿਲੇਗਾ — ਸਵੇਰੇ ਜਲਦੀ ਕਤਾਰ ਵਿੱਚ ਖੜੇ ਹੋਣ ਦੀ ਲੋੜ ਨਹੀਂ।",
+  lblName:"ਕਿਸਾਨ ਦਾ ਨਾਮ", lblPhone:"ਫੋਨ ਨੰਬਰ", lblVillage:"ਪਿੰਡ", lblCrop:"ਫਸਲ", lblQty:"ਅਨੁਮਾਨਿਤ ਮਾਤਰਾ (ਕੁਇੰਟਲ)", lblCenter:"ਖਰੀਦ ਕੇਂਦਰ", lblDate:"ਤਾਰੀਖ", lblSlot:"ਸਮਾਂ ਸਲਾਟ", phonePh:"10 ਅੰਕਾਂ ਦਾ ਮੋਬਾਈਲ",
+  btnConfirm:"ਬੁਕਿੰਗ ਪੱਕੀ ਕਰੋ", howH:"ਇਹ ਕਿਵੇਂ ਕੰਮ ਕਰਦਾ ਹੈ", how1:"ਇੱਕ ਵਾਰ ਰਜਿਸਟਰ ਕਰੋ — ਨਾਮ, ਫੋਨ, ਫਸਲ ਅਤੇ ਮਾਤਰਾ", how2:"ਸਲਾਟ ਚੁਣੋ — ਹਰ ਘੰਟੇ, ਸੀਮਿਤ ਸੀਟਾਂ",
+  how3:"ਟੋਕਨ ਲਵੋ — ਤੁਰੰਤ ਪੁਸ਼ਟੀ", how4:"ਸਮੇਂ ਸਿਰ ਪਹੁੰਚੋ — ਘਰੋਂ ਹੀ ਆਪਣੀ ਸਥਿਤੀ ਵੇਖੋ", howNote:"ਸਲਾਟ ਭਰ ਸਕਦੇ ਹਨ — ਭਰੇ ਹੋਣ ਤੇ ਦੂਜਾ ਸਮਾਂ ਚੁਣਨ ਲਈ ਕਿਹਾ ਜਾਵੇਗਾ।",
+  trackH:"ਆਪਣੀ ਬੁਕਿੰਗ ਟਰੈਕ ਕਰੋ", trackSub:"ਜੋ ਫੋਨ ਨੰਬਰ ਤੁਸੀਂ ਬੁੱਕ ਕਰਨ ਲਈ ਵਰਤਿਆ ਸੀ ਉਹ ਪਾਓ।", btnCheck:"ਸਥਿਤੀ ਵੇਖੋ", notifH:"ਸੂਚਨਾਵਾਂ", notifSub:"ਇਸ ਨੰਬਰ ਲਈ ਅੱਪਡੇਟ",
+  aheadLbl:"ਤੁਹਾਡੇ ਤੋਂ ਪਹਿਲਾਂ ਕਿਸਾਨ", waitLbl:"ਅਨੁਮਾਨਿਤ ਉਡੀਕ", tokenLbl:"ਟੋਕਨ", centerLbl:"ਕੇਂਦਰ", slotLbl:"ਸਲਾਟ", cropQtyLbl:"ਫਸਲ / ਮਾਤਰਾ", statusLbl:"ਸਥਿਤੀ", procuredLbl:"ਖਰੀਦੀ ਗਈ ਮਾਤਰਾ", paymentLbl:"ਭੁਗਤਾਨ",
+  boardServing:"ਹੁਣ ਸੇਵਾ ਵਿੱਚ", boardUpnext:"ਅਗਲਾ", boardSnap:"ਕੇਂਦਰ ਦੀ ਸਥਿਤੀ", statTotal:"ਅੱਜ ਕੁੱਲ ਬੁਕਿੰਗ", statWaiting:"ਹੁਣ ਉਡੀਕ ਵਿੱਚ", statCompleted:"ਪੂਰਾ ਅਤੇ ਭੁਗਤਾਨ ਹੋਇਆ", statCapacity:"ਸਲਾਟ ਸਮਰੱਥਾ",
+  congestionNote:"ਪਹਿਲਾਂ ਤੋਂ ਬੁੱਕ, ਕ੍ਰਮਵਾਰ ਟੋਕਨ ਦਿਨ ਭਰ ਜਮ੍ਹਾਂ ਹੋਣ ਵਾਲੀ ਭੀੜ ਘਟਾਉਣ ਲਈ ਬਣਾਏ ਗਏ ਹਨ।",
+  adminH:"ਖਰੀਦ ਡੈਸਕ", adminSub:"ਸਟਾਫ ਪਹੁੰਚ — ਡੈਸਕ ਪਿੰਨ ਪਾਓ।", pinPh:"ਪਿੰਨ", btnEnter:"ਦਾਖਲ ਹੋਵੋ", pinNote:"ਡੈਮੋ ਪਿੰਨ: 1234", btnCallNext:"ਅਗਲਾ ਟੋਕਨ ਬੁਲਾਓ",
+  thToken:"ਟੋਕਨ", thFarmer:"ਕਿਸਾਨ", thCropQty:"ਫਸਲ / ਮਾਤਰਾ", thStatus:"ਸਥਿਤੀ", thAction:"ਕਾਰਵਾਈ",
+  stNowServing:"ਹੁਣ ਸੇਵਾ ਵਿੱਚ", stStillWaiting:"ਅਜੇ ਉਡੀਕ ਵਿੱਚ", stCompleted2:"ਅੱਜ ਪੂਰੇ ਹੋਏ", stAvgCycle:"ਔਸਤ ਬੁਕਿੰਗ-ਤੋਂ-ਭੁਗਤਾਨ ਸਮਾਂ",
+  sBooked:"ਬੁੱਕ ਹੋਇਆ", sProgress:"ਕਾਊਂਟਰ ਤੇ", sProcured:"ਖਰੀਦਿਆ ਗਿਆ", sPaid:"ਭੁਗਤਾਨ ਹੋਇਆ", waitingCall:"ਬੁਲਾਵੇ ਦੀ ਉਡੀਕ", complete:"✓ ਪੂਰਾ",
+  btnProcure:"ਖਰੀਦ ਦੀ ਪੁਸ਼ਟੀ ਕਰੋ", btnPay:"ਭੁਗਤਾਨ ਵਜੋਂ ਨਿਸ਼ਾਨਬੱਧ ਕਰੋ",
+  langH:"ਆਪਣੀ ਭਾਸ਼ਾ ਚੁਣੋ", langLead:"ਖਰੀਦ ਸਲਾਟ ਬੁੱਕ ਕਰੋ, ਕਤਾਰ ਤੋਂ ਬਚੋ, ਅਤੇ ਸਮੇਂ ਸਿਰ ਭੁਗਤਾਨ ਲਵੋ। ਜਾਰੀ ਰੱਖਣ ਲਈ ਆਪਣੀ ਭਾਸ਼ਾ ਚੁਣੋ।", btnContinue:"ਜਾਰੀ ਰੱਖੋ", changeLang:"ਭਾਸ਼ਾ",
+  partialNote:"ਬਿੰਦੀ ਵਾਲੀਆਂ ਭਾਸ਼ਾਵਾਂ ਸੂਚੀ ਵਿੱਚ ਦਿਖਦੀਆਂ ਹਨ, ਪਰ ਐਪ ਹੁਣ ਉਹਨਾਂ ਲਈ ਅੰਗਰੇਜ਼ੀ ਵਿੱਚ ਚੱਲਦੀ ਹੈ।",
+  footer:"ਹਰ ਬੁਕਿੰਗ, ਕਤਾਰ ਕਾਲ ਅਤੇ ਭੁਗਤਾਨ ਹਰ ਟੈਬ ਅਤੇ ਡਿਵਾਈਸ ਤੇ ਤੁਰੰਤ ਅੱਪਡੇਟ ਹੁੰਦਾ ਹੈ।",
+  noBookings:"ਇਸ ਨੰਬਰ ਲਈ ਕੋਈ ਬੁਕਿੰਗ ਨਹੀਂ ਮਿਲੀ।", noNotifs:"ਅਜੇ ਕੋਈ ਸੂਚਨਾ ਨਹੀਂ।", noWaiting:"ਹੁਣ ਕੋਈ ਉਡੀਕ ਵਿੱਚ ਨਹੀਂ।", noRows:"ਇਸ ਕੇਂਦਰ/ਤਾਰੀਖ ਲਈ ਅਜੇ ਬੁਕਿੰਗ ਨਹੀਂ।",
+  errPhone:"ਸਹੀ 10 ਅੰਕਾਂ ਦਾ ਫੋਨ ਨੰਬਰ ਪਾਓ।", errPin:"ਗਲਤ ਪਿੰਨ।", searchPrompt:"ਅੱਪਡੇਟ ਵੇਖਣ ਲਈ ਫੋਨ ਨੰਬਰ ਖੋਜੋ।",
+  crops:{wheat:"ਕਣਕ", paddy:"ਝੋਨਾ", cotton:"ਕਪਾਹ", mustard:"ਸਰੋਂ", bajra:"ਬਾਜਰਾ", sugarcane:"ਗੰਨਾ"},
+  today:"ਅੱਜ", tomorrow:"ਕੱਲ੍ਹ", dayafter:"ਪਰਸੋਂ" },
+
+as:{ tag:"সংগ্ৰহ কেন্দ্ৰৰ বাবে শ্লট বুকিং আৰু শাৰী ব্যৱস্থাপনা", navBook:"শ্লট বুক কৰক", navTrack:"মোৰ বুকিং চাওক", navBoard:"লাইভ শাৰী বৰ্ড", navAdmin:"সংগ্ৰহ ডেস্ক",
+  bookH:"পঞ্জীয়ন কৰক আৰু সংগ্ৰহ শ্লট বুক কৰক", bookSub:"কেন্দ্ৰ, তাৰিখ আৰু সময় বাছক। আপুনি এটা টোকেন নম্বৰ আৰু আনুমানিক অপেক্ষাৰ সময় পাব — ৰাতিপুৱা সোনকালে শাৰীত থিয় হ'ব নালাগে।",
+  lblName:"কৃষকৰ নাম", lblPhone:"ফোন নম্বৰ", lblVillage:"গাঁও", lblCrop:"শস্য", lblQty:"প্ৰত্যাশিত পৰিমাণ (কুইণ্টাল)", lblCenter:"সংগ্ৰহ কেন্দ্ৰ", lblDate:"তাৰিখ", lblSlot:"সময় শ্লট", phonePh:"১০ সংখ্যাৰ মোবাইল",
+  btnConfirm:"বুকিং নিশ্চিত কৰক", howH:"এইটো কেনেকৈ কাম কৰে", how1:"এবাৰ পঞ্জীয়ন কৰক — নাম, ফোন, শস্য আৰু পৰিমাণ", how2:"শ্লট বাছক — প্ৰতি ঘণ্টাত, সীমিত আসন",
+  how3:"টোকেন পাওক — তাৎক্ষণিক নিশ্চিতকৰণ", how4:"সময়ত উপস্থিত হওক — ঘৰৰ পৰাই আপোনাৰ অৱস্থান চাওক", howNote:"শ্লট পূৰ হ'ব পাৰে — পূৰ হ'লে আন সময় বাছিবলৈ কোৱা হ'ব।",
+  trackH:"আপোনাৰ বুকিং ট্ৰেক কৰক", trackSub:"আপুনি বুক কৰা ফোন নম্বৰটো দিয়ক।", btnCheck:"অৱস্থা চাওক", notifH:"জাননী", notifSub:"এই নম্বৰৰ বাবে আপডেট",
+  aheadLbl:"আপোনাৰ আগত কৃষক", waitLbl:"আনুমানিক অপেক্ষা", tokenLbl:"টোকেন", centerLbl:"কেন্দ্ৰ", slotLbl:"শ্লট", cropQtyLbl:"শস্য / পৰিমাণ", statusLbl:"অৱস্থা", procuredLbl:"সংগৃহীত পৰিমাণ", paymentLbl:"পৰিশোধ",
+  boardServing:"এতিয়া সেৱাত", boardUpnext:"পৰৱৰ্তী", boardSnap:"কেন্দ্ৰৰ অৱস্থা", statTotal:"আজি মুঠ বুকিং", statWaiting:"বৰ্তমান অপেক্ষাত", statCompleted:"সম্পূৰ্ণ আৰু পৰিশোধিত", statCapacity:"শ্লট ক্ষমতা",
+  congestionNote:"আগতীয়াকৈ বুক কৰা, ক্ৰমিক টোকেনসমূহ দিনটোৰ সৰহভাগ সময়ত জমা হোৱা ভিৰ কমাবলৈ ডিজাইন কৰা হৈছে।",
+  adminH:"সংগ্ৰহ ডেস্ক", adminSub:"কৰ্মচাৰী প্ৰৱেশ — ডেস্ক পিন দিয়ক।", pinPh:"পিন", btnEnter:"প্ৰৱেশ কৰক", pinNote:"ডেমো পিন: 1234", btnCallNext:"পৰৱৰ্তী টোকেন মাতক",
+  thToken:"টোকেন", thFarmer:"কৃষক", thCropQty:"শস্য / পৰিমাণ", thStatus:"অৱস্থা", thAction:"কাৰ্য",
+  stNowServing:"এতিয়া সেৱাত", stStillWaiting:"এতিয়াও অপেক্ষাত", stCompleted2:"আজি সম্পূৰ্ণ", stAvgCycle:"গড় বুকিং-পৰা-পৰিশোধ সময়",
+  sBooked:"বুক কৰা হ'ল", sProgress:"কাউণ্টাৰত", sProcured:"সংগৃহীত", sPaid:"পৰিশোধিত", waitingCall:"মাতৰ বাবে অপেক্ষা", complete:"✓ সম্পূৰ্ণ",
+  btnProcure:"সংগ্ৰহ নিশ্চিত কৰক", btnPay:"পৰিশোধ চিহ্নিত কৰক",
+  langH:"আপোনাৰ ভাষা বাছক", langLead:"সংগ্ৰহ শ্লট বুক কৰক, শাৰী পৰিহাৰ কৰক, আৰু সময়ত পৰিশোধ পাওক। অব্যাহত ৰাখিবলৈ আপোনাৰ ভাষা বাছক।", btnContinue:"অব্যাহত ৰাখক", changeLang:"ভাষা",
+  partialNote:"বিন্দু চিহ্নিত ভাষাসমূহ তালিকাত দেখা যায়, কিন্তু এপটো এতিয়া সেইবোৰৰ বাবে ইংৰাজীত চলে।",
+  footer:"প্ৰতিটো বুকিং, শাৰী কল আৰু পৰিশোধ প্ৰতিটো টেব আৰু ডিভাইচত তৎক্ষণাৎ আপডেট হয়।",
+  noBookings:"এই নম্বৰৰ বাবে কোনো বুকিং পোৱা নগ'ল।", noNotifs:"এতিয়াও কোনো জাননী নাই।", noWaiting:"এতিয়া কোনেও অপেক্ষা কৰা নাই।", noRows:"এই কেন্দ্ৰ/তাৰিখৰ বাবে এতিয়াও বুকিং নাই।",
+  errPhone:"বৈধ ১০ সংখ্যাৰ ফোন নম্বৰ দিয়ক।", errPin:"ভুল পিন।", searchPrompt:"আপডেট চাবলৈ ফোন নম্বৰ বিচাৰক।",
+  crops:{wheat:"গম", paddy:"ধান", cotton:"কপাহ", mustard:"সৰিয়হ", bajra:"বাজৰা", sugarcane:"কুঁহিয়াৰ"},
+  today:"আজি", tomorrow:"কাইলৈ", dayafter:"পৰহি" },
+};
+
+function tr(lang, key){
+  const set = T[FULL_LANGS.includes(lang) ? lang : 'en'];
+  return (set && set[key] !== undefined) ? set[key] : (T.en[key] || key);
+}
+function cropName(lang, cropKey){
+  const set = T[FULL_LANGS.includes(lang) ? lang : 'en'];
+  return (set && set.crops && set.crops[cropKey]) || T.en.crops[cropKey];
+}
+
+/* ================= STATE ================= */
+let STATE = { bookings: [], notifications: {}, counters: {} };
+let currentLang = 'en';
+let currentTab = "book";
+let adminUnlocked = false;
+
+function dateOptions(lang){
+  const out = [];
+  const labels = [tr(lang,'today'), tr(lang,'tomorrow'), tr(lang,'dayafter')];
+  for(let i=0;i<3;i++){
+    const d = new Date();
+    d.setDate(d.getDate()+i);
+    const iso = d.toISOString().slice(0,10);
+    const disp = d.toLocaleDateString('en-IN',{day:'numeric', month:'short'});
+    out.push({iso, label: labels[i]+" · "+disp});
+  }
+  return out;
+}
+function ckey(center,date){ return center+"|"+date; }
+function getCounter(center,date){
+  const k = ckey(center,date);
+  if(!STATE.counters[k]) STATE.counters[k] = {nextToken:1, nowServing:0};
+  return STATE.counters[k];
+}
+function bookingsFor(center,date){
+  return STATE.bookings.filter(b=>b.center===center && b.date===date).sort((a,b)=>a.token-b.token);
+}
+function addNotif(phone,text){
+  if(!STATE.notifications[phone]) STATE.notifications[phone]=[];
+  STATE.notifications[phone].unshift({t:new Date().toLocaleString('en-IN',{hour:'2-digit',minute:'2-digit',day:'2-digit',month:'short'}), text});
+}
+function dateLabel(iso){
+  const found = dateOptions(currentLang).find(d=>d.iso===iso);
+  return found ? found.label : iso;
+}
+
+async function loadState(){
+  try{
+    const res = await window.storage.get(STATE_KEY, true);
+    if(res && res.value){
+      const parsed = JSON.parse(res.value);
+      STATE = Object.assign({bookings:[],notifications:{},counters:{}}, parsed);
+    }
+  }catch(e){ /* no data yet */ }
+}
+async function saveState(){
+  try{ await window.storage.set(STATE_KEY, JSON.stringify(STATE), true); }catch(e){ console.error("storage error", e); }
+}
+async function loadLangPref(){
+  try{
+    const res = await window.storage.get(LANG_KEY, false);
+    if(res && res.value) return res.value;
+  }catch(e){}
+  return null;
+}
+async function saveLangPref(lang){
+  try{ await window.storage.set(LANG_KEY, lang, false); }catch(e){}
+}
+
+/* ================= LANDING PAGE ================= */
+function buildLangGrid(){
+  const grid = document.getElementById('langGrid');
+  grid.innerHTML = LANG_META.map(l => {
+    const partial = !FULL_LANGS.includes(l.code);
+    return `<div class="lang-chip ${partial?'partial':''}" data-code="${l.code}">
+      <span class="native">${l.native}</span>
+      <span class="eng">${l.eng}</span>
+    </div>`;
+  }).join('');
+  grid.querySelectorAll('.lang-chip').forEach(chip=>{
+    chip.addEventListener('click', ()=>{
+      grid.querySelectorAll('.lang-chip').forEach(c=>c.classList.remove('selected'));
+      chip.classList.add('selected');
+      currentLang = chip.dataset.code;
+      document.getElementById('continueBtn').disabled = false;
+      const partial = !FULL_LANGS.includes(currentLang);
+      document.getElementById('partialNote').textContent = partial ? tr('en','partialNote') : '';
+    });
+  });
+}
+function enterApp(){
+  document.getElementById('landing').classList.add('hidden');
+  document.getElementById('app').classList.remove('hidden');
+  applyStaticText();
+  render();
+}
+function applyStaticText(){
+  document.getElementById('tagline').textContent = tr(currentLang,'tag');
+  document.getElementById('langSwitchLabel').textContent = LANG_META.find(l=>l.code===currentLang).eng;
+  document.querySelector('#tabs button[data-tab="book"]').textContent = tr(currentLang,'navBook');
+  document.querySelector('#tabs button[data-tab="track"]').textContent = tr(currentLang,'navTrack');
+  document.querySelector('#tabs button[data-tab="board"]').textContent = tr(currentLang,'navBoard');
+  document.querySelector('#tabs button[data-tab="admin"]').textContent = tr(currentLang,'navAdmin');
+  document.getElementById('footerNote').textContent = tr(currentLang,'footer');
+  document.documentElement.setAttribute('dir', currentLang==='ur' ? 'rtl' : 'ltr');
+}
+document.getElementById('continueBtn').addEventListener('click', async ()=>{
+  await saveLangPref(currentLang);
+  enterApp();
+});
+document.getElementById('langSwitchBtn').addEventListener('click', ()=>{
+  document.getElementById('app').classList.add('hidden');
+  document.getElementById('landing').classList.remove('hidden');
+  document.querySelectorAll('.lang-chip').forEach(c=>c.classList.toggle('selected', c.dataset.code===currentLang));
+  document.getElementById('continueBtn').disabled = false;
+});
+
+/* ================= BOOK TAB ================= */
+function renderBook(){
+  const L = currentLang;
+  const centerOpts = CENTERS.map(c=>`<option value="${c}">${c}</option>`).join('');
+  const dateOpts = dateOptions(L).map(d=>`<option value="${d.iso}">${d.label}</option>`).join('');
+  const slotOpts = SLOTS.map(s=>`<option value="${s}">${s}</option>`).join('');
+  const cropOpts = CROP_KEYS.map(c=>`<option value="${c}">${cropName(L,c)}</option>`).join('');
+  return `
+  <div class="grid2">
+    <div class="card">
+      <h2>${tr(L,'bookH')}</h2>
+      <p class="hint">${tr(L,'bookSub')}</p>
+      <form id="bookForm">
+        <label>${tr(L,'lblName')}</label>
+        <input type="text" id="f_name" required>
+        <div class="row2">
+          <div><label>${tr(L,'lblPhone')}</label><input type="tel" id="f_phone" pattern="[0-9]{10}" maxlength="10" placeholder="${tr(L,'phonePh')}" required></div>
+          <div><label>${tr(L,'lblVillage')}</label><input type="text" id="f_village" required></div>
+        </div>
+        <div class="row2">
+          <div><label>${tr(L,'lblCrop')}</label><select id="f_crop">${cropOpts}</select></div>
+          <div><label>${tr(L,'lblQty')}</label><input type="number" id="f_qty" min="1" step="0.5" required></div>
+        </div>
+        <div class="row2">
+          <div><label>${tr(L,'lblCenter')}</label><select id="f_center">${centerOpts}</select></div>
+          <div><label>${tr(L,'lblDate')}</label><select id="f_date">${dateOpts}</select></div>
+        </div>
+        <label>${tr(L,'lblSlot')}</label>
+        <select id="f_slot">${slotOpts}</select>
+        <button class="btn" type="submit">${tr(L,'btnConfirm')}</button>
+      </form>
+      <div id="bookMsgArea"></div>
+    </div>
+    <div class="card">
+      <h2>${tr(L,'howH')}</h2>
+      <div class="statline"><span>1</span><span>${tr(L,'how1')}</span></div>
+      <div class="statline"><span>2</span><span>${tr(L,'how2')}</span></div>
+      <div class="statline"><span>3</span><span>${tr(L,'how3')}</span></div>
+      <div class="statline"><span>4</span><span>${tr(L,'how4')}</span></div>
+      <p class="hint" style="margin-top:16px;">${tr(L,'howNote')}</p>
+    </div>
+  </div>`;
+}
+function wireBook(){
+  const L = currentLang;
+  document.getElementById('bookForm').addEventListener('submit', async (e)=>{
+    e.preventDefault();
+    const name = document.getElementById('f_name').value.trim();
+    const phone = document.getElementById('f_phone').value.trim();
+    const village = document.getElementById('f_village').value.trim();
+    const cropKey = document.getElementById('f_crop').value;
+    const qty = parseFloat(document.getElementById('f_qty').value);
+    const center = document.getElementById('f_center').value;
+    const date = document.getElementById('f_date').value;
+    const slot = document.getElementById('f_slot').value;
+    const area = document.getElementById('bookMsgArea');
+
+    if(!/^[0-9]{10}$/.test(phone)){ area.innerHTML = `<div class="msg err">${tr(L,'errPhone')}</div>`; return; }
+    const slotCount = STATE.bookings.filter(b=>b.center===center && b.date===date && b.slot===slot).length;
+    if(slotCount >= SLOT_CAPACITY){
+      area.innerHTML = `<div class="msg err">${slot} — ${center} — ${dateLabel(date)}</div>`;
+      return;
+    }
+    const counter = getCounter(center,date);
+    const token = counter.nextToken++;
+    const booking = { id: center+date+token+"-"+Date.now(), token, name, phone, village, cropKey, qty, center, date, slot,
+      status:'booked', procuredQty:null, paymentAmount:null, createdAt: Date.now() };
+    STATE.bookings.push(booking);
+    addNotif(phone, `${tr(L,'tokenLbl')} #${token} — ${center}, ${dateLabel(date)}, ${slot}`);
+    await saveState();
+
+    const position = token - counter.nowServing;
+    const waitMin = Math.max(0, (position-1)) * AVG_MIN_PER_FARMER;
+    area.innerHTML = `
+      <div class="token-confirm">
+        <div class="label">${tr(L,'tokenLbl').toUpperCase()}</div>
+        <div class="num">#${token}</div>
+        <div class="detail">${center} · ${dateLabel(date)} · ${slot}</div>
+        <div class="detail">${tr(L,'waitLbl')}: ~${waitMin} min</div>
+      </div>
+      <div class="msg ok">${tr(L,'searchPrompt')}</div>`;
+    document.getElementById('bookForm').reset();
+  });
+}
+
+/* ================= TRACK TAB ================= */
+function renderTrack(){
+  const L = currentLang;
+  return `
+  <div class="grid2">
+    <div class="card">
+      <h2>${tr(L,'trackH')}</h2>
+      <p class="hint">${tr(L,'trackSub')}</p>
+      <label>${tr(L,'lblPhone')}</label>
+      <input type="tel" id="t_phone" pattern="[0-9]{10}" maxlength="10" placeholder="${tr(L,'phonePh')}">
+      <button class="btn" id="t_search">${tr(L,'btnCheck')}</button>
+      <div id="t_results"></div>
+    </div>
+    <div class="card">
+      <h2>${tr(L,'notifH')}</h2>
+      <p class="hint">${tr(L,'notifSub')}</p>
+      <div id="t_notifs"><div class="empty">${tr(L,'searchPrompt')}</div></div>
+    </div>
+  </div>`;
+}
+function statusPill(status){
+  const L = currentLang;
+  const map = { booked: tr(L,'sBooked'), progress: tr(L,'sProgress'), procured: tr(L,'sProcured'), paid: tr(L,'sPaid') };
+  return `<span class="pill ${status}">${map[status] || status}</span>`;
+}
+function wireTrack(){
+  const L = currentLang;
+  document.getElementById('t_search').addEventListener('click', ()=>{
+    const phone = document.getElementById('t_phone').value.trim();
+    const rBox = document.getElementById('t_results');
+    const nBox = document.getElementById('t_notifs');
+    if(!/^[0-9]{10}$/.test(phone)){ rBox.innerHTML = `<div class="msg err">${tr(L,'errPhone')}</div>`; return; }
+    const mine = STATE.bookings.filter(b=>b.phone===phone).sort((a,b)=>b.createdAt-a.createdAt);
+    if(mine.length===0){
+      rBox.innerHTML = `<div class="msg err">${tr(L,'noBookings')}</div>`;
+    } else {
+      rBox.innerHTML = mine.map(b=>{
+        const counter = getCounter(b.center,b.date);
+        const position = Math.max(0, b.token - counter.nowServing);
+        const waitMin = Math.max(0,(position-1))*AVG_MIN_PER_FARMER;
+        let posLine = '';
+        if(b.status==='booked') posLine = `<div class="statline"><span>${tr(L,'aheadLbl')}</span><b>${Math.max(0,position-1)}</b></div><div class="statline"><span>${tr(L,'waitLbl')}</span><b>~${waitMin} min</b></div>`;
+        return `<div class="card" style="margin-top:14px;">
+          <div class="statline"><span>${tr(L,'tokenLbl')}</span><b>#${b.token}</b></div>
+          <div class="statline"><span>${tr(L,'centerLbl')}</span><span>${b.center}</span></div>
+          <div class="statline"><span>${tr(L,'slotLbl')}</span><span>${dateLabel(b.date)}, ${b.slot}</span></div>
+          <div class="statline"><span>${tr(L,'cropQtyLbl')}</span><span>${cropName(L,b.cropKey)}, ${b.qty} qtl</span></div>
+          <div class="statline"><span>${tr(L,'statusLbl')}</span>${statusPill(b.status)}</div>
+          ${posLine}
+          ${b.status==='procured'||b.status==='paid' ? `<div class="statline"><span>${tr(L,'procuredLbl')}</span><span>${b.procuredQty} qtl</span></div>`:''}
+          ${b.status==='paid' ? `<div class="statline"><span>${tr(L,'paymentLbl')}</span><span>₹${b.paymentAmount.toLocaleString('en-IN')}</span></div>`:''}
+        </div>`;
+      }).join('');
+    }
+    const notifs = STATE.notifications[phone] || [];
+    nBox.innerHTML = notifs.length ? notifs.map(n=>`<div class="notif"><div class="t">${n.t}</div>${n.text}</div>`).join('')
+      : `<div class="empty">${tr(L,'noNotifs')}</div>`;
+  });
+}
+
+/* ================= LIVE BOARD TAB ================= */
+function renderBoard(){
+  const L = currentLang;
+  const centerOpts = CENTERS.map(c=>`<option value="${c}">${c}</option>`).join('');
+  const dateOpts = dateOptions(L).map(d=>`<option value="${d.iso}">${d.label}</option>`).join('');
+  return `
+  <div class="queue-select">
+    <div><label>${tr(L,'centerLbl')}</label><select id="b_center">${centerOpts}</select></div>
+    <div><label>${tr(L,'lblDate')}</label><select id="b_date">${dateOpts}</select></div>
+  </div>
+  <div class="grid2">
+    <div>
+      <div class="board">
+        <div class="label">${tr(L,'boardServing')}</div>
+        <div class="num" id="b_serving">—</div>
+        <div class="sub" id="b_subline"></div>
+      </div>
+      <div class="card" style="margin-top:18px;">
+        <h2>${tr(L,'boardUpnext')}</h2>
+        <div id="b_upcoming"></div>
+      </div>
+    </div>
+    <div class="card">
+      <h2>${tr(L,'boardSnap')}</h2>
+      <div id="b_stats"></div>
+    </div>
+  </div>`;
+}
+function refreshBoard(){
+  const L = currentLang;
+  const center = document.getElementById('b_center').value;
+  const date = document.getElementById('b_date').value;
+  const counter = getCounter(center,date);
+  const all = bookingsFor(center,date);
+  const waiting = all.filter(b=>b.status==='booked');
+  const completed = all.filter(b=>b.status==='paid').length;
+
+  document.getElementById('b_serving').textContent = counter.nowServing ? '#'+counter.nowServing : '—';
+  document.getElementById('b_subline').textContent = `${center} · ${dateLabel(date)}`;
+
+  const upcoming = waiting.slice(0,5);
+  document.getElementById('b_upcoming').innerHTML = upcoming.length
+    ? upcoming.map(b=>`<div class="statline"><span>#${b.token}</span><span>${b.slot}</span></div>`).join('')
+    : `<div class="empty">${tr(L,'noWaiting')}</div>`;
+
+  document.getElementById('b_stats').innerHTML = `
+    <div class="statline"><span>${tr(L,'statTotal')}</span><b>${all.length}</b></div>
+    <div class="statline"><span>${tr(L,'statWaiting')}</span><b>${waiting.length}</b></div>
+    <div class="statline"><span>${tr(L,'statCompleted')}</span><b>${completed}</b></div>
+    <div class="statline"><span>${tr(L,'statCapacity')}</span><b>${SLOT_CAPACITY}/hr</b></div>
+    <p class="hint" style="margin-top:16px;">${tr(L,'congestionNote')}</p>`;
+}
+function wireBoard(){
+  ['b_center','b_date'].forEach(id=>document.getElementById(id).addEventListener('change', refreshBoard));
+  refreshBoard();
+}
+
+/* ================= ADMIN TAB ================= */
+function renderAdmin(){
+  const L = currentLang;
+  if(!adminUnlocked){
+    return `
+    <div class="pin-gate">
+      <div class="card">
+        <h2>${tr(L,'adminH')}</h2>
+        <p class="hint">${tr(L,'adminSub')}</p>
+        <input type="text" id="pin" placeholder="${tr(L,'pinPh')}" maxlength="4">
+        <button class="btn" id="pinBtn" style="width:100%;">${tr(L,'btnEnter')}</button>
+        <p class="hint" style="margin-top:10px;">${tr(L,'pinNote')}</p>
+        <div id="pinMsg"></div>
+      </div>
+    </div>`;
+  }
+  const centerOpts = CENTERS.map(c=>`<option value="${c}">${c}</option>`).join('');
+  const dateOpts = dateOptions(L).map(d=>`<option value="${d.iso}">${d.label}</option>`).join('');
+  return `
+  <div class="queue-select">
+    <div><label>${tr(L,'centerLbl')}</label><select id="a_center">${centerOpts}</select></div>
+    <div><label>${tr(L,'lblDate')}</label><select id="a_date">${dateOpts}</select></div>
+    <div><button class="btn gold" id="callNext">${tr(L,'btnCallNext')}</button></div>
+  </div>
+  <div class="card" style="overflow-x:auto;">
+    <h2>${tr(L,'boardUpnext')}</h2>
+    <table>
+      <thead><tr><th>${tr(L,'thToken')}</th><th>${tr(L,'thFarmer')}</th><th>${tr(L,'thCropQty')}</th><th>${tr(L,'thStatus')}</th><th>${tr(L,'thAction')}</th></tr></thead>
+      <tbody id="a_rows"></tbody>
+    </table>
+  </div>
+  <div class="card">
+    <h2>${tr(L,'adminH')}</h2>
+    <div id="a_stats"></div>
+  </div>`;
+}
+function refreshAdmin(){
+  if(!adminUnlocked) return;
+  const L = currentLang;
+  const center = document.getElementById('a_center').value;
+  const date = document.getElementById('a_date').value;
+  const counter = getCounter(center,date);
+  const rows = bookingsFor(center,date);
+  const tbody = document.getElementById('a_rows');
+
+  tbody.innerHTML = rows.length ? rows.map(b=>{
+    let action = '';
+    if(b.status==='booked'){
+      action = `<span style="color:var(--ink-soft); font-size:12.5px;">${tr(L,'waitingCall')}</span>`;
+    } else if(b.status==='progress'){
+      action = `<div class="actioncell">
+        <input type="number" id="qty_${b.id}" value="${b.qty}" step="0.5" min="0">
+        <button class="btn small" onclick="markProcured('${b.id}')">${tr(L,'btnProcure')}</button>
+      </div>`;
+    } else if(b.status==='procured'){
+      const suggested = Math.round(b.procuredQty * (RATES[b.cropKey]||2000));
+      action = `<div class="actioncell">
+        <input type="number" id="amt_${b.id}" value="${suggested}" step="1">
+        <button class="btn small gold" onclick="markPaid('${b.id}')">${tr(L,'btnPay')}</button>
+      </div>`;
+    } else if(b.status==='paid'){
+      action = `<span style="color:var(--moss); font-size:12.5px;">${tr(L,'complete')}</span>`;
+    }
+    return `<tr>
+      <td><b>#${b.token}</b></td>
+      <td>${b.name}<br><span style="color:var(--ink-soft); font-size:12px;">${b.phone} · ${b.village}</span></td>
+      <td>${cropName(L,b.cropKey)}<br><span style="color:var(--ink-soft); font-size:12px;">${b.qty} qtl</span></td>
+      <td>${statusPill(b.status)}</td>
+      <td>${action}</td>
+    </tr>`;
+  }).join('') : `<tr><td colspan="5" class="empty">${tr(L,'noRows')}</td></tr>`;
+
+  const waiting = rows.filter(r=>r.status==='booked').length;
+  const paidRows = rows.filter(r=>r.status==='paid');
+  let avgCycle = '—';
+  if(paidRows.length){
+    const mins = paidRows.reduce((s,r)=> s + (r.paidAt - r.createdAt), 0) / paidRows.length / 60000;
+    avgCycle = Math.round(mins) + ' min';
+  }
+  document.getElementById('a_stats').innerHTML = `
+    <div class="statline"><span>${tr(L,'stNowServing')}</span><b>${counter.nowServing ? '#'+counter.nowServing : '—'}</b></div>
+    <div class="statline"><span>${tr(L,'stStillWaiting')}</span><b>${waiting}</b></div>
+    <div class="statline"><span>${tr(L,'stCompleted2')}</span><b>${paidRows.length}</b></div>
+    <div class="statline"><span>${tr(L,'stAvgCycle')}</span><b>${avgCycle}</b></div>`;
+}
+window.callNextToken = async function(){
+  const center = document.getElementById('a_center').value;
+  const date = document.getElementById('a_date').value;
+  const counter = getCounter(center,date);
+  const rows = bookingsFor(center,date).filter(b=>b.status==='booked');
+  if(rows.length===0){ return; }
+  const next = rows[0];
+  next.status = 'progress';
+  counter.nowServing = next.token;
+  addNotif(next.phone, `#${next.token} — ${center}`);
+  await saveState();
+  refreshAdmin();
+};
+window.markProcured = async function(id){
+  const b = STATE.bookings.find(x=>x.id===id);
+  const qty = parseFloat(document.getElementById('qty_'+id).value);
+  if(!qty || qty<=0) return;
+  b.procuredQty = qty;
+  b.status = 'procured';
+  addNotif(b.phone, `${cropName(currentLang,b.cropKey)} — ${qty} qtl — ${b.center}`);
+  await saveState();
+  refreshAdmin();
+};
+window.markPaid = async function(id){
+  const b = STATE.bookings.find(x=>x.id===id);
+  const amt = parseFloat(document.getElementById('amt_'+id).value);
+  if(!amt || amt<=0) return;
+  b.paymentAmount = amt;
+  b.paidAt = Date.now();
+  b.status = 'paid';
+  addNotif(b.phone, `₹${amt.toLocaleString('en-IN')} — #${b.token}`);
+  await saveState();
+  refreshAdmin();
+};
+function wireAdmin(){
+  const L = currentLang;
+  if(!adminUnlocked){
+    document.getElementById('pinBtn').addEventListener('click', ()=>{
+      const val = document.getElementById('pin').value.trim();
+      if(val==='1234'){ adminUnlocked = true; render(); }
+      else document.getElementById('pinMsg').innerHTML = `<div class="msg err">${tr(L,'errPin')}</div>`;
+    });
+    return;
+  }
+  document.getElementById('callNext').addEventListener('click', window.callNextToken);
+  ['a_center','a_date'].forEach(id=>document.getElementById(id).addEventListener('change', refreshAdmin));
+  refreshAdmin();
+}
+
+/* ================= ROUTER ================= */
+function render(){
+  applyStaticText();
+  const panel = document.getElementById('panel');
+  if(currentTab==='book'){ panel.innerHTML = renderBook(); wireBook(); }
+  else if(currentTab==='track'){ panel.innerHTML = renderTrack(); wireTrack(); }
+  else if(currentTab==='board'){ panel.innerHTML = renderBoard(); wireBoard(); }
+  else if(currentTab==='admin'){ panel.innerHTML = renderAdmin(); wireAdmin(); }
+  document.querySelectorAll('nav.tabs button').forEach(btn=>{
+    btn.classList.toggle('active', btn.dataset.tab===currentTab);
+  });
+}
+document.getElementById('tabs').addEventListener('click', (e)=>{
+  const btn = e.target.closest('button[data-tab]');
+  if(!btn) return;
+  currentTab = btn.dataset.tab;
+  render();
+});
+
+(async function init(){
+  buildLangGrid();
+  document.getElementById('landingLead').textContent = tr('en','langLead');
+  await loadState();
+  const savedLang = await loadLangPref();
+  if(savedLang){
+    currentLang = savedLang;
+    enterApp();
+  }
+  setInterval(async ()=>{
+    await loadState();
+    if(document.getElementById('app').classList.contains('hidden')) return;
+    if(currentTab==='board') refreshBoard();
+    if(currentTab==='admin') refreshAdmin();
+  }, 4000);
+})();
+</script>
+</body>
+</html>
